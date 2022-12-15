@@ -1,0 +1,60 @@
+p::first-letter {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.container {
+  width: 800px;
+  // background-color: #fafbd1e7;
+  margin: 0 auto;
+}
+
+/* PAGE SECTION */
+
+.section-info {
+  // background-color: #fafbd1e7;
+  // border-top: 3px solid #f87070;
+  // border-bottom: 3px solid #f87070;
+  display: grid;
+  padding: 15px;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+}
+
+/* SECTION TEXT */
+.section-text {
+  padding: 0 20px;
+
+  P {
+    margin: 15px 0;
+  }
+
+  li {
+    line-height: 1.6;
+  }
+}
+
+/* SECTION BOX */
+.section-box {
+  img,
+  a {
+    display: block;
+    margin: auto;
+  }
+}
+
+/* LINK CSS */
+a {
+  &:link,
+  &:visited {
+    color: #444;
+    font-weight: bolder;
+    text-decoration: none;
+  }
+
+  &:hover,
+  &:active {
+    text-decoration: underline;
+  }
+}

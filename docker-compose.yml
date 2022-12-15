@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: ${MSSQL_CONTAINER_NAME}
+    restart: always
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${MSSQL_PASSWORD}
+    volumes:
+      - mssqlAdmissionsComittee:/data/db
+    ports:
+      - "1433:1433"
+    expose:
+      - "1433"
+
+volumes:
+  mssqlAdmissionsComittee:

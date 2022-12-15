@@ -1,0 +1,123 @@
+<div class="page-header">
+  <div class="container"><h2>Employees</h2></div>
+</div>
+
+<form id="employeeDetailsForm" #employeeDetailsForm="ngForm">
+  <div class="box-info">
+    <h3 class="box-header">Personal information</h3>
+    <section>
+      <mat-form-field appearance="outline">
+        <mat-label>First name</mat-label>
+        <input
+          type="text"
+          matInput
+          [(ngModel)]="employee.person.firstName"
+          name="firstName"
+        />
+      </mat-form-field>
+    </section>
+    <section>
+      <mat-form-field appearance="outline">
+        <mat-label>Second name</mat-label>
+        <input
+          type="text"
+          matInput
+          [(ngModel)]="employee.person.secondName"
+          name="secondName"
+        />
+      </mat-form-field>
+    </section>
+    <section>
+      <mat-form-field appearance="outline">
+        <mat-label>Patronymic</mat-label>
+        <input
+          type="text"
+          matInput
+          [(ngModel)]="employee.person.patronymic"
+          name="patronymic"
+        />
+      </mat-form-field>
+    </section>
+    <section>
+      <mat-form-field appearance="outline">
+        <mat-label>Birth</mat-label>
+        <input
+          type="date"
+          matInput
+          [(ngModel)]="employee.person.birth"
+          name="birth"
+        />
+      </mat-form-field>
+    </section>
+    <section>
+      <mat-form-field appearance="outline">
+        <mat-label>Address</mat-label>
+        <input
+          type="text"
+          matInput
+          [(ngModel)]="employee.person.address"
+          name="address"
+        />
+      </mat-form-field>
+    </section>
+    <section>
+      <mat-form-field appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input
+          type="text"
+          matInput
+          [(ngModel)]="employee.person.phone"
+          name="phone"
+        />
+      </mat-form-field>
+    </section>
+    <section class="centered-column">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          type="email"
+          matInput
+          [(ngModel)]="employee.person.email"
+          name="email"
+        />
+      </mat-form-field>
+    </section>
+  </div>
+  <div class="box-info">
+    <h3 class="box-header">Work information</h3>
+    <section>
+      <mat-form-field appearance="outline">
+        <mat-label>Faculty</mat-label>
+        <input
+          type="text"
+          matInput
+          [(ngModel)]="employee.faculty.facultyName"
+          name="faculty"
+        />
+      </mat-form-field>
+    </section>
+    <section>
+      <mat-list>
+        <mat-label>Rank</mat-label>
+        <mat-list-item *ngFor="let work of employee.working">
+          <input type="text" matInput value="{{ work.rank.rankName }}" />
+          <input
+            type="text"
+            matInput
+            value="{{ work.issuedYear + ' року видано' }}"
+          />
+        </mat-list-item>
+      </mat-list>
+    </section>
+    <section class="centered-column">
+      <mat-form-field appearance="outline">
+        <mat-label>CarrerInfo</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="employee.careerInfo"
+          name="careerInfo"
+        ></textarea>
+      </mat-form-field>
+    </section>
+  </div>
+</form>

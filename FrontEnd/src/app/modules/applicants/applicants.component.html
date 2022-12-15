@@ -1,0 +1,83 @@
+<div class="page-header">
+  <div class="container"><h2>Students</h2></div>
+</div>
+
+<div class="container">
+  <button (click)="getApplicantFilter()">Add Filter</button>
+</div>
+
+<div class="container mat-elevation-z8">
+  <table mat-table matSort [dataSource]="dataSource">
+    <!-- ApplicantId Column -->
+    <ng-container matColumnDef="applicantId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
+      <td mat-cell *matCellDef="let element">{{ element.applicantId }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.person.firstName }}</td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="secondName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Second Name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.person.secondName }}
+      </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="patronymic">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Patronymic</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.person.patronymic }}
+      </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
+      <td mat-cell *matCellDef="let element">{{ element.person.address }}</td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="birth">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Birth</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.person.birth | date : "yyyy-MM-dd" }}
+      </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+      <td mat-cell *matCellDef="let element">{{ element.person.email }}</td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+      <td mat-cell *matCellDef="let element">{{ element.person.phone }}</td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="certificate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Certificate</th>
+      <td mat-cell *matCellDef="let element">{{ element.certificate }}</td>
+    </ng-container>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter</td>
+    </tr>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Select page of users"
+  ></mat-paginator>
+</div>

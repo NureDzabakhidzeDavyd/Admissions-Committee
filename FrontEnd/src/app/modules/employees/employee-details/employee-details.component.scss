@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+$primary: #8fedfa;
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.box-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 5%;
+
+  .box-header {
+    grid-column: 1 / -1;
+    background-color: lightgray;
+    font-family: "Nunito", "sans-serif";
+    font-size: 24px;
+    font-weight: bolder;
+    padding: 10px;
+  }
+
+  section mat-form-field {
+    display: block;
+  }
+
+  .centered-column {
+    grid-column: 1 / span 2;
+    justify-self: center;
+    width: 60%;
+  }
+}

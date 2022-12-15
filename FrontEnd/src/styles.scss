@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap");
+
+$primary: #8fedfa;
+
+body {
+  margin: 0;
+  font-family: "Nunito", "sans-serif";
+  font-size: 18px;
+}
+
+.page-header {
+  padding: 10px 0;
+
+  h2 {
+    font-weight: bolder;
+    font-family: "Nunito", "sans-serif";
+  }
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
