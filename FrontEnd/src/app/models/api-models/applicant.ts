@@ -1,4 +1,4 @@
-import { Person } from './person.model';
+import { Person } from './person';
 
 export interface Applicant {
   applicantId: number;
