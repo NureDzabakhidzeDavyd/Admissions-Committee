@@ -1,5 +1,7 @@
-﻿using AdmissionsCommittee.Contracts.V1.Response;
+﻿using AdmissionsCommittee.Contracts.V1.Request;
+using AdmissionsCommittee.Contracts.V1.Response;
 using AdmissionsCommittee.Core.Data;
+using AdmissionsCommittee.Core.Domain;
 using AdmissionsCommittee.Core.Domain.Filters;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +42,39 @@ namespace AdmissionsCommittee.Api.V1.Controllers
             }
             var response = _mapper.Map<EmployeeResponse>(employee);
             return Ok(response);
+        }
+
+        [HttpPut("{employeeId:int}")]
+        public async Task<IActionResult> Update([FromRoute] int employeeId, [FromBody] UpdateEmployeeRequest request)
+        {
+            var employee = await _unitOfWork.EmployeeRepository.GetByIdAsync(employeeId);
+            if(employee is null)
+            {
+                return NotFound();
+            }
+            employee = _mapper.Map(request, employee);
+
+            var person = await _unitOfWork.PersonRepository.GetByIdAsync(employeeId);
+            if(person is null)
+            {
+                return NotFound();
+            }
+            person = _mapper.Map(request.Person, person);
+
+            var workings = await _unitOfWork.WorkingRepository.GetEmployeeWorkingsAsync(employeeId);
+            if(workings is null)
+            {
+                return NotFound();
+            }
+
+
+            var newPerson = await _unitOfWork.PersonRepository.UpdateAsync(person);
+            var newEmployee = await _unitOfWork.EmployeeRepository.UpdateAsync(employee);
+            newEmployee.Person = newPerson;
+
+            var response = _mapper.Map<EmployeeResponse>(newEmployee);
+
+            return Ok(newEmployee);
         }
     }
 }

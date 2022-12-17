@@ -10,8 +10,4 @@
     <ProjectReference Include="..\AdmissionsCommittee.Core\AdmissionsCommittee.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="V1\Request\" />
-  </ItemGroup>
-
 </Project>
