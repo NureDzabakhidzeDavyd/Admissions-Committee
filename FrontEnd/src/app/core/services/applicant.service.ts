@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Applicant } from 'src/app/models/api-models/applicant.model';
+import { Applicant } from 'src/app/models/api-models/applicant';
 import { DynamicFilters } from 'src/app/models/api-models/filters/dynamicFilters';
 import { DynamicFilter } from 'src/app/models/api-models/filters/dynamicFilter';
 

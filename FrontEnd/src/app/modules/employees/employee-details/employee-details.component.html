@@ -1,5 +1,5 @@
 <div class="page-header">
-  <div class="container"><h2>Employees</h2></div>
+  <h2>Employees</h2>
 </div>
 
 <form id="employeeDetailsForm" #employeeDetailsForm="ngForm">
@@ -88,26 +88,39 @@
     <section>
       <mat-form-field appearance="outline">
         <mat-label>Faculty</mat-label>
-        <input
-          type="text"
-          matInput
-          [(ngModel)]="employee.faculty.facultyName"
-          name="faculty"
-        />
+        <mat-select [(ngModel)]="employee.employeeId" name="faculty">
+          <mat-option
+            *ngFor="let faculty of faculties"
+            [value]="faculty.facultyId"
+          >
+            {{ faculty.facultyName }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </section>
     <section>
-      <mat-list>
-        <mat-label>Rank</mat-label>
-        <mat-list-item *ngFor="let work of employee.working">
-          <input type="text" matInput value="{{ work.rank.rankName }}" />
-          <input
-            type="text"
-            matInput
-            value="{{ work.issuedYear + ' року видано' }}"
-          />
-        </mat-list-item>
-      </mat-list>
+      <mat-label>Ranks</mat-label>
+      <mat-select [(ngModel)]="employee.employeeId" name="working">
+        <mat-option
+          *ngFor="let work of employee.working"
+          [value]="work.workingId"
+        >
+          {{ work.rank.rankName }} {{ work.issuedYear }}
+        </mat-option>
+      </mat-select>
+      <!-- <mat-list [(ngModel)]="employee.workings">
+        <div mat-subheader>
+          Ranks
+          <mat-list-item
+            *ngFor="let work of employee.workings"
+            [value]="work.workingId"
+          >
+            <div matListItemTitle>
+              {{ work.rank.rankName }} {{ work.issuedYear }}
+            </div>
+          </mat-list-item>
+        </div>
+      </mat-list> -->
     </section>
     <section class="centered-column">
       <mat-form-field appearance="outline">
@@ -119,5 +132,8 @@
         ></textarea>
       </mat-form-field>
     </section>
+    <a href="#" class="button centered-column" (click)="onUpdate()"
+      >Update changes</a
+    >
   </div>
 </form>

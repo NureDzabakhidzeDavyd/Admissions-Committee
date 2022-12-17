@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { EmployeesService } from 'src/app/core/services/employees.service';
-import { Employee } from 'src/app/models/ui-models/employee.mode';
+import { FacultiesService } from 'src/app/core/services/faculties.service';
+import { Employee } from 'src/app/models/ui-models/employee.model';
+import { Faculty } from 'src/app/models/ui-models/faculty.model';
 
 @Component({
   selector: 'app-employee-details',
@@ -29,11 +31,20 @@ export class EmployeeDetailsComponent implements OnInit {
     working: [],
     careerInfo: '',
   };
+  faculties: Faculty[] = [];
 
-  constructor(
-    private readonly employeeService: EmployeesService,
-    private readonly route: ActivatedRoute
-  ) {}
+  onUpdate(): void {}
+
+  FormatDate(iDate: Date) {
+    var inputDate = new Date(iDate);
+    var formattedDate =
+      inputDate.getFullYear() +
+      '-' +
+      (inputDate.getMonth() + 1) +
+      '-' +
+      inputDate.getDate();
+    return formattedDate;
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe({
@@ -47,8 +58,21 @@ export class EmployeeDetailsComponent implements OnInit {
               console.log(this.employee);
             },
           });
+
+          this._facultyService.getAll().subscribe({
+            next: (value) => {
+              this.faculties = value;
+              console.log(this.faculties);
+            },
+          });
         }
       },
     });
   }
+
+  constructor(
+    private readonly employeeService: EmployeesService,
+    private readonly route: ActivatedRoute,
+    private readonly _facultyService: FacultiesService
+  ) {}
 }

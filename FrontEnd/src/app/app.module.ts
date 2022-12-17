@@ -54,6 +54,8 @@ import { GreetingComponent } from './modules/greeting/greeting.component';
 import { EmployeesComponent } from './modules/employees/employees-overview/employees.component';
 import { EmployeeDetailsComponent } from './modules/employees/employee-details/employee-details.component';
 import { FormsModule } from '@angular/forms';
+import { PageWrapperComponent } from './core/components/page-wrapper/page-wrapper.component';
+import { EmployeeWorkings } from './modules/employees/employee-workings/employee-workings.component.';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { FormsModule } from '@angular/forms';
     GreetingComponent,
     EmployeesComponent,
     EmployeeDetailsComponent,
+    PageWrapperComponent,
+    EmployeeWorkings
   ],
   imports: [
     BrowserModule,

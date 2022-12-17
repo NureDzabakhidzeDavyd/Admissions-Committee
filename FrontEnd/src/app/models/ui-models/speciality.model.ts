@@ -1,4 +1,4 @@
-import { Coefficient } from './coefficient.mode';
+import { Coefficient } from './coefficient.model';
 import { Faculty } from './faculty.model';
 
 export interface Speciality {
