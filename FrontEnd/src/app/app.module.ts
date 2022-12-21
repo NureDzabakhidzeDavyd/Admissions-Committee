@@ -53,9 +53,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { GreetingComponent } from './modules/greeting/greeting.component';
 import { EmployeesComponent } from './modules/employees/employees-overview/employees.component';
 import { EmployeeDetailsComponent } from './modules/employees/employee-details/employee-details.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageWrapperComponent } from './core/components/page-wrapper/page-wrapper.component';
-import { EmployeeWorkings } from './modules/employees/employee-workings/employee-workings.component.';
+import { EmployeeWorkingsComponent } from './modules/employees/employee-workings/employee-workings.component.';
+import { SpecialityComponent } from './modules/speciality/speciality-overview/specialities.component';
+import { SpecialityDetailsComponent } from './modules/speciality/speciality-details/speciality-details.component';
+import { PageHeaderComponent } from './core/components/page-header/page-header/page-header.component';
+import { SpecialityCoefficientsComponent } from './modules/speciality/speciality-coefficients/speciality-coefficients.component';
+import { CommonModule } from '@angular/common';
+import { CompetitiveScoreComponent } from './modules/speciality/speciality-competitive-score/speciality-competitive-score.component';
 
 @NgModule({
   declarations: [
@@ -65,15 +71,23 @@ import { EmployeeWorkings } from './modules/employees/employee-workings/employee
     EmployeesComponent,
     EmployeeDetailsComponent,
     PageWrapperComponent,
-    EmployeeWorkings
+    EmployeeWorkingsComponent,
+    SpecialityComponent,
+    SpecialityDetailsComponent,
+    PageHeaderComponent,
+    SpecialityCoefficientsComponent,
+    CompetitiveScoreComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
 
     HttpClientModule,
     FormsModule,
+    CommonModule,
 
     // Angular materials
     MatAutocompleteModule,

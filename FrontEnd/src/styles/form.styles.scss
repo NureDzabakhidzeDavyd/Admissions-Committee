@@ -1,0 +1,10 @@
+#specialityDetailsForm {
+  @apply grid grid-cols-3 gap-y-2 gap-x-2 bg-slate-100 p-4;
+}
+
+.specialityDetailsForm-header {
+  font-size: 30px;
+  font-family: "Nunito", "sans-serif";
+  font-weight: bolder;
+  margin: 10px;
+}

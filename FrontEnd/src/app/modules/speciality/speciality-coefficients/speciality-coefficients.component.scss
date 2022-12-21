@@ -1,0 +1,44 @@
+.coefficients {
+  @apply bg-slate-300 p-4 my-4;
+  .coefficients-header {
+    font-size: 30px;
+    font-family: "Nunito", "sans-serif";
+    font-weight: bolder;
+  }
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10%;
+  justify-content: center;
+
+  li {
+    background-color: #eee;
+    padding: 1em;
+    width: 20%;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p {
+      margin: 0;
+    }
+
+    p.coefficient {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    p.eie {
+      font-family: "Nunito", "sans-serif";
+      font-weight: bolder;
+
+      @apply uppercase text-[0.9em] grow;
+    }
+  }
+}

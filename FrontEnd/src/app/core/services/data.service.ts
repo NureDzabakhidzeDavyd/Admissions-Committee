@@ -17,5 +17,9 @@ export class DataService {
     return this._httpClient.get(this.getUrl());
   }
 
-  constructor(private readonly _httpClient: HttpClient) {}
+  public getById(id: number): Observable<any> {
+    return this._httpClient.get(`${this.getUrl()}/${id}`);
+  }
+
+  constructor(protected readonly _httpClient: HttpClient) {}
 }

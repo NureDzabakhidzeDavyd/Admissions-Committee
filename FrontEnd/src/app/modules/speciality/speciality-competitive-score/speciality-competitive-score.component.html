@@ -1,0 +1,57 @@
+<div class="speciality-competitive-score">
+  <div class="calculate-competitive-score">
+    <h3>Calculate Competitive Score</h3>
+    <form
+      [formGroup]="calcCompetitveScoreForm"
+      (ngSubmit)="calculateCompetitiveScore()"
+    >
+      <ul *ngIf="coefficients">
+        <li class="form-group">
+          <mat-label for="firstNumber"
+            >{{ coefficients[0].eie.eieName }}:</mat-label
+          >
+          <input
+            type="text"
+            formControlName="firstNumber"
+            id="firstNumber"
+            required
+          />
+        </li>
+        <li class="form-group">
+          <mat-label for="secondNumber"
+            >{{ coefficients[1].eie.eieName }}:</mat-label
+          >
+          <input
+            type="text"
+            formControlName="secondNumber"
+            id="secondNumber"
+            required
+          />
+        </li>
+        <li class="form-group">
+          <mat-label for="thirdNumber"
+            >{{ coefficients[2].eie.eieName }}:</mat-label
+          >
+          <input
+            type="text"
+            formControlName="thirdNumber"
+            id="thirdNumber"
+            required
+          />
+        </li>
+      </ul>
+      <div class="form-group">
+        <button type="submit">Calculate Your Competitive Score</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="compare-competitive-score">
+    <h3>Зрівняти в рейтингу з іншими</h3>
+    <div style="margin-bottom: 25px">
+      <label>Зрівняти в рейтингу з іншими</label>
+      <input type="text" [(ngModel)]="competitiveScore" competitiveScore />
+    </div>
+    <button (click)="compareCompetitiveScore()">Почати перевірку</button>
+  </div>
+</div>

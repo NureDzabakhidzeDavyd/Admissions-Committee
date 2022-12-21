@@ -1,6 +1,4 @@
-<div class="page-header">
-  <h2>Employees</h2>
-</div>
+<app-page-header [title]="'Speciality'"></app-page-header>
 
 <form id="employeeDetailsForm" #employeeDetailsForm="ngForm">
   <div class="box-info">
@@ -108,19 +106,6 @@
           {{ work.rank.rankName }} {{ work.issuedYear }}
         </mat-option>
       </mat-select>
-      <!-- <mat-list [(ngModel)]="employee.workings">
-        <div mat-subheader>
-          Ranks
-          <mat-list-item
-            *ngFor="let work of employee.workings"
-            [value]="work.workingId"
-          >
-            <div matListItemTitle>
-              {{ work.rank.rankName }} {{ work.issuedYear }}
-            </div>
-          </mat-list-item>
-        </div>
-      </mat-list> -->
     </section>
     <section class="centered-column">
       <mat-form-field appearance="outline">

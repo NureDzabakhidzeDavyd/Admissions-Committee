@@ -1,0 +1,165 @@
+<app-page-header [title]="'Speciality'"></app-page-header>
+<h3 class="specialityDetailsForm-header">About the educational program</h3>
+<form id="specialityDetailsForm" #specialityDetailsForm="ngForm">
+  <mat-form-field appearance="outline">
+    <mat-label>Speciality Name</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.specialityName"
+      name="specialityName"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Speciality Code</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.specialityCode"
+      name="specialityCode"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Faculty</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.faculty.facultyName"
+      name="facultyName"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Educational Program</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.educationalProgram"
+      name="educationalProgram"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Education Degree</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.educationDegree"
+      name="educationDegree"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Branch</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.branchName"
+      name="branchName"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Offer Type</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.offerType"
+      name="offerType"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Education Form</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.educationForm"
+      name="educationForm"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Education Cost</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.educationCost"
+      name="educationCost"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Seat Total</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.seatTotal"
+      name="seatTotal"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Submitted ApplicationsTotal</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.submittedApplicationsTotal"
+      name="submittedApplicationsTotal"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Budget Total</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.budgetTotal"
+      name="budgetTotal"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Contract Total</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.contractTotal"
+      name="contractTotal"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Quota1 Total</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.quota1Total"
+      name="quota1Total"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Quota2 Total</mat-label>
+    <input
+      type="text"
+      matInput
+      readonly
+      [(ngModel)]="speciality.quota2Total"
+      name="quota2Total"
+    />
+  </mat-form-field>
+</form>
+
+<div>
+  <speciality-coefficients
+    [coefficients]="speciality.coefficients"
+  ></speciality-coefficients>
+  <speciality-competitive-score
+    [specialityId]="speciality.specialityId"
+    [coefficients]="speciality.coefficients"
+  >
+  </speciality-competitive-score>
+</div>

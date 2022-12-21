@@ -6,7 +6,7 @@ import { Working } from 'src/app/models/ui-models/working.model';
   selector: 'app-employee-workings',
   templateUrl: './employee-workings.component.html',
 })
-export class EmployeeWorkings implements OnInit {
+export class EmployeeWorkingsComponent implements OnInit {
   @Input() employeeId: number = 0;
   public workings: Working[] = [];
 
