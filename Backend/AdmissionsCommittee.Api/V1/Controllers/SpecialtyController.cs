@@ -3,6 +3,7 @@ using AutoMapper;
 using AdmissionsCommittee.Core.Data;
 using AdmissionsCommittee.Contracts.V1.Response;
 using AdmissionsCommittee.Core.Domain.Filters;
+using AdmissionsCommittee.Contracts.V1.Request;
 
 namespace AdmissionsCommittee.Api.V1.Controllers
 {
@@ -73,6 +74,53 @@ namespace AdmissionsCommittee.Api.V1.Controllers
             return Ok(response);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByid([FromRoute] int id)
+        {
+            var speciality = await _unitOfWork.SpecialtyRepository.GetByIdAsync(id);
+            if (speciality is null)
+            {
+                return NotFound();
+            }
+            var response = _mapper.Map<SpecialtyResponse>(speciality);
+            return Ok(response);
+        }
+
+        [HttpGet("competitive-score")]
+        public async Task<IActionResult> GetCompetitiveScore(
+            [FromQuery] IEnumerable<ApplicantMarkRequest> applicantMarks,
+            [FromQuery] int specialityId)
+        {
+            var result = 0f;
+            applicantMarks = new[]
+            {
+                new ApplicantMarkRequest {EieId = 13, MarkValue=152},
+                new ApplicantMarkRequest {EieId = 10, MarkValue=162},
+                new ApplicantMarkRequest {EieId = 11, MarkValue=172},
+            };
+
+            var specialityCoeffs = await _unitOfWork.CoefficientRepository.GetAllSpecialityCoefficientsAsync(specialityId);
+
+            foreach (var coef in specialityCoeffs)
+            {
+                var markValue = applicantMarks.Where(x => x.EieId == coef.EieId).First().MarkValue;
+                if (markValue == 0)
+                {
+                    return NotFound($"Mark value for eie doesn't exist");
+                }
+                result += MathF.Floor(markValue * coef.CoefficientValue);
+            }
+
+            return Ok($"Your competitive score: {result}");
+        }
+
+        [HttpGet("{id}/competitive-score")]
+        public async Task<IActionResult> GetApplicantCompetitiveScore
+        ([FromRoute] int id, [FromQuery] int specialityId)
+        {
+            var competitiveScore = await _unitOfWork.ApplicantRepository.CalculateApplicantCompetitiveScore(id, specialityId);
+            return Ok(competitiveScore);
+        }
 
         [HttpGet("{id}/compare-competitive/{competitiveScore}")]
         public async Task<IActionResult> CompareApplicantCompetitiveScore([FromRoute] int id, [FromRoute] int competitiveScore)

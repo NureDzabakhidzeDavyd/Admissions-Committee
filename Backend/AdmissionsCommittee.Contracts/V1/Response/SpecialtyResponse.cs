@@ -17,6 +17,7 @@ namespace AdmissionsCommittee.Contracts.V1.Response
         public string BranchName { get; set; }
         public string OfferType { get; set; }
         public string EducationForm { get; set; }
+        public string EducationalProgram { get; set; }
         public int EducationCost { get; set; }
         public int SeatTotal { get; set; }
         public int SubmittedApplicationsTotal { get; set; }

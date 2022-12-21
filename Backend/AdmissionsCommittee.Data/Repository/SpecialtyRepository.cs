@@ -32,7 +32,7 @@ namespace AdmissionsCommittee.Data.Repository
                     speciality.Coefficients.Add(coef);
 
                     return speciality;
-                }, splitOn: $"{nameof(Faculty.FacultyId)}, {nameof(Coefficient.CoefficientValue)},  {nameof(Eie.EieId)}");
+                }, splitOn: $"{nameof(Faculty.FacultyId)}, {nameof(Coefficient.CoefficientId)},  {nameof(Eie.EieId)}");
 
             var result = speciality.GroupBy(p => p.SpecialityId).Select(g =>
             {
@@ -103,21 +103,22 @@ namespace AdmissionsCommittee.Data.Repository
             var applicantsCompetitiveScores = (await Connection.QueryAsync<ApplicantCompetitiveScore>(query, values, commandType: System.Data.CommandType.Text)).Select(x => x.CompetitiveScore).ToList();
 
             var averageCompetitiveScore = applicantsCompetitiveScores.Average();
-            applicantsCompetitiveScores.Add(applicantCompetitiveScore);
             
+            applicantsCompetitiveScores.Add(applicantCompetitiveScore);
             applicantsCompetitiveScores.Sort();
-            var position = applicantsCompetitiveScores.BinarySearch(applicantCompetitiveScore);
+            applicantsCompetitiveScores.Reverse();
+            //var position = applicantsCompetitiveScores.BinarySearch(applicantCompetitiveScore);
 
-            if (position == -1)
-            {
-                throw new Exception("Can't find rating of applicant competitive score");
-            }
+            //if (position == -1)
+            //{
+            //    throw new Exception("Can't find rating of applicant competitive score");
+            //}
 
             var result = new CompetitiveScoreStatistic()
             {
                 AverageCompetitiveScore = averageCompetitiveScore,
-                ApplicantCompetitiveScorePosition = position,
-                TotalApplicantsCount = applicantsCompetitiveScores.Count
+                TotalApplicantsCount = applicantsCompetitiveScores.Count - 1,
+                ApplicantCompetitiveScorePosition = applicantsCompetitiveScores.IndexOf(applicantCompetitiveScore) + 1,
             };
 
             return result;
@@ -127,6 +128,32 @@ namespace AdmissionsCommittee.Data.Repository
         {
             var result = await Connection.GetAllAsync<Speciality>();
             return result;
+        }
+
+        public override async Task<Speciality> GetByIdAsync(int id)
+        {
+            var sql = GetAllQuery().Where($"{TableName}.{nameof(Speciality.SpecialityId)}", "=", id);
+            var query = QueryBuilder.MsSqlQueryToString(sql);
+
+            var speciality = await Connection.QueryAsync<Speciality, Faculty, Coefficient, Eie, Speciality>(query,
+                (speciality, faculty, coef, eie) =>
+                {
+                    speciality.Faculty = faculty;
+                    coef.Eie = eie;
+                    speciality.Coefficients.Add(coef);
+
+                    return speciality;
+                }, splitOn: $"{nameof(Faculty.FacultyId)}, {nameof(Coefficient.CoefficientId)},  {nameof(Eie.EieId)}");
+
+            var result = speciality.GroupBy(p => p.SpecialityId).Select(g =>
+            {
+                var groupedSpeciality = g.First();
+                var temp = g.Select(p => p.Coefficients.First()).ToList();
+                groupedSpeciality.Coefficients = temp;
+                return groupedSpeciality;
+            });
+
+            return result.Single();
         }
     }
 }

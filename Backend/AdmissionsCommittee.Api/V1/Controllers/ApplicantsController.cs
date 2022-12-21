@@ -71,41 +71,5 @@ namespace AdmissionsCommittee.Api.V1.Controllers
             var response = _mapper.Map<IEnumerable<MarkResponse>>(marks);
             return Ok(response);
         }
-
-        [HttpGet("{id}/competitive-score")]
-        public async Task<IActionResult> GetApplicantCompetitiveScore
-           ([FromRoute] int id, [FromQuery] int specialityId)
-        {
-            var competitiveScore = await _unitOfWork.ApplicantRepository.CalculateApplicantCompetitiveScore(id, specialityId);
-            return Ok(competitiveScore);
-        }
-
-        [HttpGet("competitive-score")]
-        public async Task<IActionResult> GetCompetitiveScore(
-            [FromQuery] IEnumerable<ApplicantMarkRequest> applicantMarks,
-            [FromQuery] int specialityId)
-        {
-            var result = 0f;
-            applicantMarks = new[]
-            {
-                new ApplicantMarkRequest {EieId = 1, MarkValue=152},
-                new ApplicantMarkRequest {EieId = 3, MarkValue=162},
-                new ApplicantMarkRequest {EieId = 7, MarkValue=172},
-            };
-
-            var specialityCoeffs = await _unitOfWork.CoefficientRepository.GetAllSpecialityCoefficientsAsync(specialityId);
-            
-            foreach (var coef in specialityCoeffs)
-            {
-                var markValue = applicantMarks.Where(x => x.EieId == coef.EieId).First().MarkValue;
-                if(markValue == 0)
-                {
-                    return NotFound($"Mark value for eie doesn't exist");
-                }
-                result += MathF.Floor(markValue * coef.CoefficientValue);
-            }
-
-            return Ok($"Your competitive score: {result}");
-        }
     }
 }
