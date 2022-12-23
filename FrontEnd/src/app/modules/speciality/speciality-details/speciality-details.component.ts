@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { SpecialityService } from 'src/app/core/services/specialities.service';
 import { Speciality } from 'src/app/models/ui-models/speciality.model';
 
-import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'app-employee-details',

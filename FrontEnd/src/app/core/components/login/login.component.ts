@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
@@ -12,15 +12,15 @@ export class LoginComponent {
   userName: string = '';
   password: string = '';
 
-  formData: FormGroup = this.formBuilder.group([
-    { username: '' },
-    { password: '' },
-  ]);
+  formData: FormGroup = this.formBuilder.group({
+    userName: [''],
+    password: [''],
+  });
 
   constructor(
-    private authService: AuthService,
     private router: Router,
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: FormBuilder,
+    private readonly authService: AuthService
   ) {}
 
   onClickSubmit(data: any) {
