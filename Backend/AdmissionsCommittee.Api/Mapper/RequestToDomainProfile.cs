@@ -10,6 +10,7 @@ namespace AdmissionsCommittee.Api.Mapper
         {
             CreateMap<UpdateEmployeeRequest, Employee>();
             CreateMap<UpdatePersonRequest, Person>();
+            CreateMap<UpdateApplicantRequest, Applicant>();
         }
     }
 }

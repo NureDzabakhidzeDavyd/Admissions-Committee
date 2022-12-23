@@ -71,5 +71,31 @@ namespace AdmissionsCommittee.Api.V1.Controllers
             var response = _mapper.Map<IEnumerable<MarkResponse>>(marks);
             return Ok(response);
         }
+
+        [HttpPut("{applicantId:int}")]
+        public async Task<IActionResult> Update([FromRoute] int applicantId, [FromBody] UpdateApplicantRequest request)
+        {
+            var applicant = await _unitOfWork.ApplicantRepository.GetByIdAsync(applicantId);
+            if (applicant is null)
+            {
+                return NotFound();
+            }
+            applicant = _mapper.Map(request, applicant);
+
+            var person = await _unitOfWork.PersonRepository.GetByIdAsync(applicantId);
+            if (person is null)
+            {
+                return NotFound();
+            }
+            person = _mapper.Map(request.Person, person);
+
+            var newPerson = await _unitOfWork.PersonRepository.UpdateAsync(person);
+            var newApplicant = await _unitOfWork.ApplicantRepository.UpdateAsync(applicant);
+            newApplicant.Person = newPerson;
+
+            var response = _mapper.Map<ApplicantResponse>(newApplicant);
+
+            return Ok(newApplicant);
+        }
     }
 }
