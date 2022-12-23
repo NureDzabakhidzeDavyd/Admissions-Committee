@@ -15,7 +15,17 @@
             formControlName="firstNumber"
             id="firstNumber"
             required
+            coefficientNumberIsValid
           />
+          <mat-error
+            *ngIf="
+              !FirstNumber.valid && (FirstNumber.dirty || FirstNumber.touched)
+            "
+          >
+            <div *ngIf="FirstNumber.hasError('forbiddenNumber')">
+              The number should be greater than 100 and less than 200
+            </div>
+          </mat-error>
         </li>
         <li class="form-group">
           <mat-label for="secondNumber"
@@ -28,6 +38,15 @@
             required
           />
         </li>
+        <mat-error
+          *ngIf="
+            !SecondNumber.valid && (SecondNumber.dirty || SecondNumber.touched)
+          "
+        >
+          <div *ngIf="SecondNumber.hasError('forbiddenNumber')">
+            The number should be greater than 100 and less than 200
+          </div>
+        </mat-error>
         <li class="form-group">
           <mat-label for="thirdNumber"
             >{{ coefficients[2].eie.eieName }}:</mat-label
@@ -38,20 +57,78 @@
             id="thirdNumber"
             required
           />
+          <mat-error
+            *ngIf="
+              !ThirdNumber.valid && (ThirdNumber.dirty || ThirdNumber.touched)
+            "
+          >
+            <div *ngIf="ThirdNumber.hasError('forbiddenNumber')">
+              The number should be greater than 100 and less than 200
+            </div>
+          </mat-error>
         </li>
       </ul>
       <div class="form-group">
-        <button type="submit">Calculate Your Competitive Score</button>
+        <button
+          class="app-button"
+          type="submit"
+          [disabled]="!calcCompetitveScoreForm.valid"
+        >
+          Calculate Your Competitive Score
+        </button>
       </div>
     </form>
+    <div *ngIf="competitiveScoreIsCalculated" class="competitive-score-result">
+      <p>Result: {{ calculateApplicantCompetitiveScore }}</p>
+      <button class="app-button" (click)="closeCalculateResult()">
+        Undertand
+      </button>
+    </div>
   </div>
 
   <div class="compare-competitive-score">
-    <h3>Зрівняти в рейтингу з іншими</h3>
-    <div style="margin-bottom: 25px">
-      <label>Зрівняти в рейтингу з іншими</label>
-      <input type="text" [(ngModel)]="competitiveScore" competitiveScore />
+    <div class="raw">
+      <h3>Compare your competitive score with others</h3>
+      <div style="margin-bottom: 25px">
+        <label>Compare your competitive score with others</label>
+        <input
+          type="text"
+          id="competitiveScoreValue"
+          name="competitiveScoreValue"
+          pattern="1[0-9]{2}|200"
+          required=""
+          #competitiveScoreValue="ngModel"
+          [(ngModel)]="compareApplicantCompetitiveScore"
+        />
+      </div>
+      <mat-error
+        *ngIf="
+          !competitiveScoreValue.valid &&
+          (competitiveScoreValue.dirty || competitiveScoreValue.touched)
+        "
+      >
+        The number should be greater than 100 and less than 200
+      </mat-error>
+      <button class="app-button" (click)="compareCompetitiveScore()">
+        Start the test
+      </button>
     </div>
-    <button (click)="compareCompetitiveScore()">Почати перевірку</button>
+    <div class="competitive-score-result" *ngIf="showCompetitiveScoreStatistic">
+      <p>
+        number of submitted applications:
+        {{ competitiveScoreStatistic.totalApplicantsCount }}
+      </p>
+      <p>
+        Average competitive score
+        {{ competitiveScoreStatistic.averageCompetitiveScore }}
+      </p>
+      <p>
+        your rating among applicants:
+        {{ competitiveScoreStatistic.applicantCompetitiveScorePosition }}
+      </p>
+      <button class="app-button" (click)="closeCompareResult()">
+        Undertand
+      </button>
+    </div>
   </div>
 </div>

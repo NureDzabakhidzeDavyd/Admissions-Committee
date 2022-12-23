@@ -13,6 +13,10 @@
   @apply my-4 text-base text-center;
 }
 
+.competitive-score-result {
+  @apply my-4 text-base text-center;
+}
+
 .speciality-competitive-score {
   background-color: #eee;
   @apply flex gap-3 justify-around p-3 my-4;
@@ -24,11 +28,4 @@ h3 {
 
 input {
   @apply float-right w-[25%] text-center;
-}
-
-button {
-  background-color: #8fedfa;
-  font-family: "Nunito", "sans-serif";
-  font-weight: bolder;
-  @apply p-4 text-lg;
 }

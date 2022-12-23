@@ -62,6 +62,8 @@ import { PageHeaderComponent } from './core/components/page-header/page-header/p
 import { SpecialityCoefficientsComponent } from './modules/speciality/speciality-coefficients/speciality-coefficients.component';
 import { CommonModule } from '@angular/common';
 import { CompetitiveScoreComponent } from './modules/speciality/speciality-competitive-score/speciality-competitive-score.component';
+import { LoginComponent } from './core/components/login/login.component';
+import { LogoutComponent } from './core/components/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +79,8 @@ import { CompetitiveScoreComponent } from './modules/speciality/speciality-compe
     PageHeaderComponent,
     SpecialityCoefficientsComponent,
     CompetitiveScoreComponent,
+    LoginComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -127,6 +131,7 @@ import { CompetitiveScoreComponent } from './modules/speciality/speciality-compe
     MatSortModule,
     MatTableModule,
   ],
+  exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // To tell Angular that we're going to use custom html inside our app
   providers: [],
   bootstrap: [AppComponent],

@@ -1,5 +1,6 @@
 <app-page-header [title]="'Speciality'"></app-page-header>
 <h3 class="specialityDetailsForm-header">About the educational program</h3>
+
 <form id="specialityDetailsForm" #specialityDetailsForm="ngForm">
   <mat-form-field appearance="outline">
     <mat-label>Speciality Name</mat-label>
@@ -154,12 +155,62 @@
 </form>
 
 <div>
-  <speciality-coefficients
-    [coefficients]="speciality.coefficients"
-  ></speciality-coefficients>
+  <speciality-coefficients [coefficients]="speciality.coefficients">
+  </speciality-coefficients>
   <speciality-competitive-score
     [specialityId]="speciality.specialityId"
     [coefficients]="speciality.coefficients"
   >
   </speciality-competitive-score>
+</div>
+
+<div class="col-md-4 text-right">
+  <button class="app-button" (click)="printPdf()">Download PDF</button>
+</div>
+
+<div id="print" style="width: 80%">
+  <table class="table-pdf">
+    <tr>
+      <th>Speciality Name</th>
+      <th>Speciality Code</th>
+      <th>Faculty</th>
+      <th>Educational Program</th>
+      <th>Education Degree</th>
+    </tr>
+    <tr>
+      <td>{{ speciality.specialityName }}</td>
+      <td>{{ speciality.specialityCode }}</td>
+      <td>{{ speciality.faculty.facultyName }}</td>
+      <td>{{ speciality.educationalProgram }}</td>
+      <td>{{ speciality.educationDegree }}</td>
+    </tr>
+    <tr>
+      <th>Branch</th>
+      <th>Offer Type</th>
+      <th>Education Form</th>
+      <th>Education Cost</th>
+      <th>Seat Total</th>
+    </tr>
+    <tr>
+      <td>{{ speciality.branchName }}</td>
+      <td>{{ speciality.offerType }}</td>
+      <td>{{ speciality.educationForm }}</td>
+      <td>{{ speciality.educationCost }}</td>
+      <td>{{ speciality.seatTotal }}</td>
+    </tr>
+    <tr>
+      <th>Submitted ApplicationsTotal</th>
+      <th>Budget Total</th>
+      <th>Contract Total</th>
+      <th>Quota1 Total</th>
+      <th>Quota2 Total</th>
+    </tr>
+    <tr>
+      <td>{{ speciality.submittedApplicationsTotal }}</td>
+      <td>{{ speciality.budgetTotal }}</td>
+      <td>{{ speciality.contractTotal }}</td>
+      <td>{{ speciality.quota1Total }}</td>
+      <td>{{ speciality.quota2Total }}</td>
+    </tr>
+  </table>
 </div>

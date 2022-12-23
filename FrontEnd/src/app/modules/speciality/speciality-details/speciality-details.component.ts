@@ -1,14 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SpecialityService } from 'src/app/core/services/specialities.service';
 import { Speciality } from 'src/app/models/ui-models/speciality.model';
 
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 @Component({
   selector: 'app-employee-details',
   templateUrl: './speciality-details.component.html',
-  styleUrls: ['../../../../styles/form.styles.scss'],
+  styleUrls: [
+    '../../../../styles/form.styles.scss',
+    '../../../../styles/button.styles.scss',
+    '../../../../styles/table-pdf.styles.scss',
+  ],
 })
 export class SpecialityDetailsComponent implements OnInit {
+  @ViewChild('print')
+  content!: ElementRef;
+
   specialityId: number | null | undefined;
   speciality: Speciality = {
     specialityId: 0,
@@ -52,6 +62,22 @@ export class SpecialityDetailsComponent implements OnInit {
           });
         }
       },
+    });
+  }
+
+  /**
+   * openPdf
+   */
+  public printPdf() {
+    var element: HTMLElement = document.getElementById('print') as HTMLElement;
+    html2canvas(element).then((canvas) => {
+      console.log(canvas);
+      var imgData = canvas.toDataURL('img/png');
+
+      var imgHeight = (canvas.height * 208) / canvas.width;
+      var doc = new jsPDF();
+      doc.addImage(imgData, 0, 0, 208, imgHeight);
+      doc.save('speciality.pdf');
     });
   }
 
