@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CompetitiveScoreStatistic } from 'src/app/models/api-models/competitiveScoreStatistic';
 import { Speciality } from 'src/app/models/api-models/speciality';
+import { Statistic } from 'src/app/models/api-models/statistic';
 import { DataService } from './data.service';
 
 @Injectable({
@@ -47,6 +48,12 @@ id: number, competitiveScore: number :   */
   ): Observable<CompetitiveScoreStatistic> {
     return this._httpClient.get<CompetitiveScoreStatistic>(
       `${this.getUrl()}/${id}/compare-competitive/${competitiveScore}`
+    );
+  }
+
+  public getSpecialityStatistics(id: number): Observable<Statistic[]> {
+    return this._httpClient.get<Statistic[]>(
+      `${this.getUrl()}/${id}/statistics`
     );
   }
 

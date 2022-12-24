@@ -120,7 +120,9 @@
       </p>
       <p>
         Average competitive score
-        {{ competitiveScoreStatistic.averageCompetitiveScore }}
+        {{
+          competitiveScoreStatistic.averageCompetitiveScore | number : "1.0-1"
+        }}
       </p>
       <p>
         your rating among applicants:

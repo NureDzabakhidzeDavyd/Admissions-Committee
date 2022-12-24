@@ -164,11 +164,15 @@
   </speciality-competitive-score>
 </div>
 
-<div class="col-md-4 text-right">
+<div>
+  <speciality-statistic [statistics]="statistics"> </speciality-statistic>
+</div>
+
+<div style="margin: 10px 0">
   <button class="app-button" (click)="printPdf()">Download PDF</button>
 </div>
 
-<div id="print" hidden style="width: 80%">
+<div id="print" style="width: 80%">
   <table class="table-pdf">
     <tr>
       <th>Speciality Name</th>

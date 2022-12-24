@@ -53,7 +53,7 @@ export class CompetitiveScoreComponent {
       this.specialityService
         .compareCompetitiveScore(
           this.specialityId,
-          this.compareApplicantCompetitiveScore
+          Math.round(this.compareApplicantCompetitiveScore)
         )
         .subscribe({
           next: (successResponse) => {

@@ -64,6 +64,7 @@ import { CommonModule } from '@angular/common';
 import { CompetitiveScoreComponent } from './modules/speciality/speciality-competitive-score/speciality-competitive-score.component';
 import { LoginComponent } from './core/components/login/login.component';
 import { LogoutComponent } from './core/components/logout/logout.component';
+import { SpecialityStatisticComponent } from './modules/speciality/speciality-statistics/speciality-statistic.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { LogoutComponent } from './core/components/logout/logout.component';
     CompetitiveScoreComponent,
     LoginComponent,
     LogoutComponent,
+    SpecialityStatisticComponent,
   ],
   imports: [
     BrowserModule,

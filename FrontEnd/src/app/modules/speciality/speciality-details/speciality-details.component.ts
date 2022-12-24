@@ -5,6 +5,7 @@ import { Speciality } from 'src/app/models/ui-models/speciality.model';
 
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import { Statistic } from 'src/app/models/ui-models/statistic.model';
 
 @Component({
   selector: 'app-employee-details',
@@ -48,6 +49,8 @@ export class SpecialityDetailsComponent implements OnInit {
     coefficients: [],
   };
 
+  statistics: Statistic[] = [];
+
   ngOnInit(): void {
     this.route.paramMap.subscribe({
       next: (routeValue) => {
@@ -60,6 +63,15 @@ export class SpecialityDetailsComponent implements OnInit {
               console.log(this.speciality);
             },
           });
+
+          this.specialityService
+            .getSpecialityStatistics(this.specialityId)
+            .subscribe({
+              next: (value) => {
+                this.statistics = value;
+                console.log(this.statistics);
+              },
+            });
         }
       },
     });

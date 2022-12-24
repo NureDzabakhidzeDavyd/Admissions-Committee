@@ -1,0 +1,11 @@
+.statistics {
+  @apply flex justify-around gap-4;
+}
+
+.statistics-text {
+  @apply text-center;
+}
+
+.statistics-text-header {
+  font-weight: bolder;
+}
