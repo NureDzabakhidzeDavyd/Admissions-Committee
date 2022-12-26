@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace AdmissionsCommittee.Contracts.V1.Request
 {
-    public class UpdateWorkingRequest
+    public class CreateWorkingRequest
     {
-        public int WorkingId { get; set; }
         public int RankId { get; set; }
-
         public int IssuedYear { get; set; }
     }
 }

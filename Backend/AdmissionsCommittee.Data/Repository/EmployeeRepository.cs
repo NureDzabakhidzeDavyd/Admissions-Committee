@@ -67,7 +67,7 @@ namespace AdmissionsCommittee.Data.Repository
                     }
                     return groupedEmployee;
                 });
-            return employees;
+            return result;
         }
 
         private Query GetAllQuery()

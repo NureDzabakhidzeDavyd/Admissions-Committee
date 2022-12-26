@@ -15,6 +15,7 @@ namespace AdmissionsCommittee.Core.Services
         public Task<GoogleTokenBody> GetAccessTokenAsync(string code);
 
         public Task<UserProfile> GetUserProfile(string accessToken);
+        public Task<string> GetGoogleToken();
 
         public string WriteJwtToken();
     }

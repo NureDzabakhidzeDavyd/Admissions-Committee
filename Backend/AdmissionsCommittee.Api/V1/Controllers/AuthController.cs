@@ -2,15 +2,15 @@
 using AdmissionsCommittee.Core.Data;
 using AdmissionsCommittee.Core.Services;
 using AutoMapper;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdmissionsCommittee.Api.V1.Controllers
 {
-    [Microsoft.AspNetCore.Components.Route("[controller]")]
     [ApiController]
+    [Microsoft.AspNetCore.Mvc.Route("[controller]")]
     public class AuthController : ControllerBase
     {
+        private const string redirectUrl = "https://localhost:4200/";
         private readonly IGoogleService _googleService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
@@ -65,6 +65,8 @@ namespace AdmissionsCommittee.Api.V1.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet]
 
         /// <summary>
         /// Authentication by google auth

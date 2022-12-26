@@ -2,6 +2,7 @@
 using AdmissionsCommittee.Core.Domain;
 using AdmissionsCommittee.Core.External;
 using AdmissionsCommittee.Core.Services;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -15,6 +16,7 @@ namespace AdmissionsCommittee.Business.External
     {
         private const string UserInfoUrl = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token={0}";
         private const string AuthEndpoint = "https://oauth2.googleapis.com/token";
+        private const string redirectUrl = "https://localhost:4200/";
 
         private readonly ClientCredentials _clientCredentials;
         private readonly IHttpClientFactory _clientFactory;
@@ -41,7 +43,7 @@ namespace AdmissionsCommittee.Business.External
             { "grant_type", "authorization_code" },
             { "code", code},
             { "access_type", "offline" },
-            {"redirect_uri", "https://developers.google.com/oauthplayground"},
+            {"redirect_uri", $"{redirectUrl}"},
         };
 
             var content = new FormUrlEncodedContent(queryParams);
@@ -106,6 +108,36 @@ namespace AdmissionsCommittee.Business.External
 
             var jwtResult = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             return jwtResult;
+        }
+
+        public async Task<string> GetGoogleToken()
+        {
+            var url = GenerateOAuthRequestUrl();
+
+
+            _logger.LogInformation("Auth: Trying to get google token");
+            var authResponse = await _clientFactory.CreateClient().GetAsync(url);
+            authResponse.EnsureSuccessStatusCode();
+            _logger.LogInformation("Auth: Google toke are recieved");
+
+            var stringData = await authResponse.Content.ReadAsStringAsync();
+            var token = JsonConvert.DeserializeObject<string>(stringData);
+            return token;
+        }
+
+        private string GenerateOAuthRequestUrl()
+        {
+            var queryParams = new Dictionary<string, string>
+            {
+                {"client_id", _clientCredentials.ClientId},
+                { "redirect_uri", redirectUrl },
+                { "response_type", "code" },
+                { "scope", "profile+email" },
+                { "access_type", "offline" }
+            };
+
+            var url = QueryHelpers.AddQueryString("https://accounts.google.com/o/oauth2/v2/auth", queryParams);
+            return url;
         }
     }
 }

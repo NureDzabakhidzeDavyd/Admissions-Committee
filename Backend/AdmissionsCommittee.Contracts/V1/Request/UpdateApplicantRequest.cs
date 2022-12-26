@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdmissionsCommittee.Contracts.V1.Request.Person;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

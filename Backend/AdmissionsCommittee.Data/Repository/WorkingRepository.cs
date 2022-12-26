@@ -34,5 +34,23 @@ namespace AdmissionsCommittee.Data.Repository
 
             return workings;
         }
+
+        public override async Task<IEnumerable<Working>> CreateManyAsync(IEnumerable<Working> entities)
+        {
+            var rankTableName = nameof(Rank);
+
+
+            var workings = await base.CreateManyAsync(entities);
+            var employeeId = workings.First().EmployeeId;
+            var result = await GetEmployeeWorkingsAsync(employeeId);
+            //var ranksIds = workings.Select(x => x.RankId);
+
+            //var query = "SELECT * FROM Rank WHERE RankId IN @ranks";
+            //var ranks = await Connection.QueryAsync<Rank>(query, new { ranks = ranksIds });
+
+            //workings.ToList().ForEach(working => working.Rank = ranks.First(rank => rank.RankId == working.RankId));
+
+            return result;
+        }
     }
 }

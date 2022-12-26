@@ -13,7 +13,7 @@ namespace AdmissionsCommittee.Core.Data
         public Task<IEnumerable<T>> CreateManyAsync(IEnumerable<T> entities);
 
         public Task<T> UpdateAsync(T entity);
-
+        public Task<IEnumerable<T>> UpdateManyAsync(IEnumerable<T> entities);
         public Task DeleteAsync(T entity);
         public Task DeleteByIdAsync(int id);
 
