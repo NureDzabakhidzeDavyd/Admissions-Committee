@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, NativeDateAdapter } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
@@ -60,11 +60,12 @@ import { SpecialityComponent } from './modules/speciality/speciality-overview/sp
 import { SpecialityDetailsComponent } from './modules/speciality/speciality-details/speciality-details.component';
 import { PageHeaderComponent } from './core/components/page-header/page-header/page-header.component';
 import { SpecialityCoefficientsComponent } from './modules/speciality/speciality-coefficients/speciality-coefficients.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { CompetitiveScoreComponent } from './modules/speciality/speciality-competitive-score/speciality-competitive-score.component';
 import { LoginComponent } from './core/components/login/login.component';
 import { LogoutComponent } from './core/components/logout/logout.component';
 import { SpecialityStatisticComponent } from './modules/speciality/speciality-statistics/speciality-statistic.component';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [
@@ -132,10 +133,11 @@ import { SpecialityStatisticComponent } from './modules/speciality/speciality-st
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
+    MatMomentDateModule,
   ],
   exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // To tell Angular that we're going to use custom html inside our app
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

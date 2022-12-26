@@ -1,4 +1,4 @@
-<app-page-header [title]="'Speciality'"></app-page-header>
+<app-page-header [title]="'Employee'"></app-page-header>
 
 <form id="employeeDetailsForm" #employeeDetailsForm="ngForm">
   <div class="box-info">
@@ -8,6 +8,7 @@
         <mat-label>First name</mat-label>
         <input
           type="text"
+          [readonly]="!isAdmin"
           matInput
           [(ngModel)]="employee.person.firstName"
           name="firstName"
@@ -20,6 +21,7 @@
         <input
           type="text"
           matInput
+          [readonly]="!isAdmin"
           [(ngModel)]="employee.person.secondName"
           name="secondName"
         />
@@ -30,6 +32,7 @@
         <mat-label>Patronymic</mat-label>
         <input
           type="text"
+          [readonly]="!isAdmin"
           matInput
           [(ngModel)]="employee.person.patronymic"
           name="patronymic"
@@ -42,9 +45,15 @@
         <input
           type="date"
           matInput
+          [readonly]="!isAdmin"
           [(ngModel)]="employee.person.birth"
           name="birth"
         />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
     </section>
     <section>
@@ -53,6 +62,7 @@
         <input
           type="text"
           matInput
+          [readonly]="!isAdmin"
           [(ngModel)]="employee.person.address"
           name="address"
         />
@@ -64,6 +74,7 @@
         <input
           type="text"
           matInput
+          [readonly]="!isAdmin"
           [(ngModel)]="employee.person.phone"
           name="phone"
         />
@@ -75,6 +86,7 @@
         <input
           type="email"
           matInput
+          [readonly]="!isAdmin"
           [(ngModel)]="employee.person.email"
           name="email"
         />
@@ -84,9 +96,13 @@
   <div class="box-info">
     <h3 class="box-header">Work information</h3>
     <section>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="fill">
         <mat-label>Faculty</mat-label>
-        <mat-select [(ngModel)]="employee.employeeId" name="faculty">
+        <mat-select
+          [(value)]="employee.faculty.facultyId"
+          [placeholder]="employee.faculty.facultyName"
+          name="faculty"
+        >
           <mat-option
             *ngFor="let faculty of faculties"
             [value]="faculty.facultyId"
@@ -117,8 +133,13 @@
         ></textarea>
       </mat-form-field>
     </section>
-    <a href="#" class="button centered-column" (click)="onUpdate()"
-      >Update changes</a
+    <button
+      type="submit"
+      *ngIf="isAdmin"
+      class="button centered-column"
+      (click)="onUpdate()"
     >
+      Update changes
+    </button>
   </div>
 </form>

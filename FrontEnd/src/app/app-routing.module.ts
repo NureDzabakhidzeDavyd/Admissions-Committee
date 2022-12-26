@@ -13,21 +13,14 @@ import { SpecialityComponent } from './modules/speciality/speciality-overview/sp
 const routes: Routes = [
   { path: '', component: GreetingComponent },
   { path: 'applicants', component: ApplicantsComponent },
-  {
-    path: 'employees/:id',
-    component: EmployeeDetailsComponent,
-    canActivate: [AdmissionsCommitteeGuard],
-  },
-  {
-    path: 'employees',
-    component: EmployeesComponent,
-    canActivate: [AdmissionsCommitteeGuard],
-  },
+  { path: 'employees/:id', component: EmployeeDetailsComponent },
+  { path: 'employees', component: EmployeesComponent },
   { path: 'specialities', component: SpecialityComponent },
   { path: 'speciality/:id', component: SpecialityDetailsComponent },
 
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
+  { path: '', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({

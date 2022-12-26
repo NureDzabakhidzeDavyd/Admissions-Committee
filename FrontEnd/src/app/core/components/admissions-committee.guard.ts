@@ -28,13 +28,10 @@ export class AdmissionsCommitteeGuard implements CanActivate {
     let val: string = localStorage.getItem('isUserLoggedIn') as string;
 
     if (val != null && val == 'true') {
-      if (url == '/login') {
-        return this.router.parseUrl('/');
-      } else {
-        return true;
-      }
-    } else {
-      return this.router.parseUrl('/login');
+      if (url == '/login') this.router.parseUrl('/');
+      else return true;
     }
+
+    return this.router.parseUrl('/login');
   }
 }
