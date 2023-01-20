@@ -22,20 +22,35 @@ public class AuthInstaller : IInstaller
         {
             x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(x =>
+        })
+        //    .AddJwtBearer(x =>
+        //{
+        //    x.TokenValidationParameters = new TokenValidationParameters()
+        //    {
+        //        ValidIssuer = clientCredentials.ClientId,
+        //        ValidateIssuer = true,
+
+        //        ValidateAudience = false,
+        //        RequireExpirationTime = true,
+
+        //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.Unicode.GetBytes(jwtSettings.Secret)),
+        //        ValidateIssuerSigningKey = true
+        //    };
+        //}
+        .AddJwtBearer(options =>
         {
-            x.TokenValidationParameters = new TokenValidationParameters()
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                ValidIssuer = clientCredentials.ClientId,
                 ValidateIssuer = true,
-        
-                ValidateAudience = false,
-                RequireExpirationTime = true,
-        
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.Unicode.GetBytes(jwtSettings.Secret)),
-                ValidateIssuerSigningKey = true
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = "https://localhost:7151",
+                ValidAudience = "https://localhost:7151",
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
             };
-        });
+        }
+        );
         services.AddAuthorization();
     }
 }

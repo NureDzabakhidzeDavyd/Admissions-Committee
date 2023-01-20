@@ -2,9 +2,10 @@
   <div class="container"><h2>Students</h2></div>
 </div>
 
-<div class="container">
-  <button (click)="getApplicantFilter()">Add Filter</button>
-</div>
+<app-dynamic-filter
+  (onDynamicSearch)="getAllByFilters($event)"
+  [fields]="displayedColumns"
+></app-dynamic-filter>
 
 <div class="container mat-elevation-z8">
   <table mat-table matSort [dataSource]="dataSource">

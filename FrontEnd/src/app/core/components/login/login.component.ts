@@ -1,6 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthenticatedResponse } from 'src/app/models/api-request/login/authenticatedResponse';
+import { LoginRequest } from 'src/app/models/api-request/login/loginRequest';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -9,8 +12,12 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  userName: string = '';
-  password: string = '';
+  loginRequest: LoginRequest = {
+    userName: '',
+    password: '',
+  };
+
+  invalidLogin: boolean = true;
 
   formData: FormGroup = this.formBuilder.group({
     userName: [''],
@@ -24,16 +31,9 @@ export class LoginComponent {
   ) {}
 
   onClickSubmit(data: any) {
-    this.userName = data.userName;
-    this.password = data.password;
-
-    console.log('Login page: ' + this.userName);
-    console.log('Login page: ' + this.password);
-
-    this.authService.login(this.userName, this.password).subscribe((data) => {
-      console.log('Is Login Success: ' + data);
-
-      if (data) this.router.navigate(['/']);
-    });
+    let loginUsername = data.userName;
+    let loginPassword = data.password;
+    this.loginRequest = { userName: loginUsername, password: loginPassword };
+    this.authService.login(this.loginRequest);
   }
 }

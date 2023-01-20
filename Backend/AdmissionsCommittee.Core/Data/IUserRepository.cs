@@ -1,14 +1,13 @@
 ﻿using AdmissionsCommittee.Core.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdmissionsCommittee.Core.Data
 {
     public interface IUserRepository : IRepository<UserProfile>
     {
         public Task<UserProfile?> GetUserByEmail(string email);
+
+        public Task<UserProfile> GetUserByCredentials(string userName, string password);
+
+        public Task<UserProfile> GetByFirstName(string username);
     }
 }

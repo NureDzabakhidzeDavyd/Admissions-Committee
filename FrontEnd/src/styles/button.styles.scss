@@ -1,4 +1,4 @@
-$primary: #8fedfa;
+$primary: #034087;
 
 .app-button {
   display: inline-block;
@@ -40,35 +40,5 @@ $primary: #8fedfa;
     &:before {
       width: 100%;
     }
-  }
-}
-
-/* optional reset for presentation */
-* {
-  font-family: Arial;
-  text-decoration: none;
-  font-size: 20px;
-}
-.container {
-  padding-top: 50px;
-  margin: 0 auto;
-  width: 100%;
-  text-align: center;
-}
-h1 {
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  margin-bottom: 2rem;
-  color: #777;
-}
-span {
-  display: block;
-  margin-top: 2rem;
-  font-size: 0.7rem;
-  color: #777;
-  a {
-    font-size: 0.7rem;
-    color: #999;
-    text-decoration: underline;
   }
 }

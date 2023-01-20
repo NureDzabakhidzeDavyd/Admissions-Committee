@@ -1,4 +1,5 @@
 ﻿using AdmissionsCommittee.Contracts.V1.Request;
+using AdmissionsCommittee.Contracts.V1.Request.Applicant;
 using AdmissionsCommittee.Contracts.V1.Request.Employee;
 using AdmissionsCommittee.Contracts.V1.Request.Person;
 using AdmissionsCommittee.Core.Domain;
@@ -17,6 +18,9 @@ namespace AdmissionsCommittee.Api.Mapper
             CreateMap<CreatePersonRequest, Person>();
 
             CreateMap<UpdateApplicantRequest, Applicant>();
+            CreateMap<CreateApplicantRequest, Applicant>();
+
+            CreateMap<CreateMarkRequest, Mark>();
 
             CreateMap<UpdateWorkingRequest, Working>();
             CreateMap<CreateWorkingRequest, Working>();

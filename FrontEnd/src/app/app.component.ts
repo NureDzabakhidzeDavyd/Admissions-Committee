@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { JWT } from './core/constans/auth';
 
 @Component({
   selector: 'app-root',
@@ -6,26 +8,20 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
-  public isUserLoggedIn: boolean;
+export class AppComponent implements OnInit {
+  public isUserLoggedIn: boolean = false;
 
-  public get getUserLoggedIn(): boolean {
-    let val: string = localStorage.getItem('isUserLoggedIn') as string;
-
-    if (val != null && val == 'true') {
-      return true;
-    }
-
-    return false;
-  }
-
-  constructor() {
-    let storeData = localStorage.getItem('isUserLoggedIn');
-    console.log('StoreData: ' + storeData);
-    if (storeData != null && storeData == 'true') {
+  public get getUserLoggedIn() {
+    let jwt = localStorage.getItem(JWT);
+    if (jwt && !this.jwtHelper.isTokenExpired(jwt)) {
       this.isUserLoggedIn = true;
     } else {
       this.isUserLoggedIn = false;
     }
+    return this.isUserLoggedIn;
   }
+
+  constructor(private jwtHelper: JwtHelperService) {}
+
+  ngOnInit(): void {}
 }

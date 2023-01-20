@@ -1,6 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, tap } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { Observable, of, tap } from 'rxjs';
+import { AuthenticatedResponse } from 'src/app/models/api-request/login/authenticatedResponse';
+import { LoginRequest } from 'src/app/models/api-request/login/loginRequest';
+import { JWT, REFRESHTOKEN } from '../constans/auth';
 import { DataService } from './data.service';
 
 @Injectable({
@@ -9,27 +18,42 @@ import { DataService } from './data.service';
 export class AuthService extends DataService {
   isUserLoggedIn: boolean = false;
 
-  login(userName: string, password: string) {
-    console.log(userName);
-    console.log(password);
-    this.isUserLoggedIn = userName == 'admin' && password == 'admin';
-    localStorage.setItem(
-      'isUserLoggedIn',
-      this.isUserLoggedIn ? 'true' : 'false'
-    );
-    return of(this.isUserLoggedIn).pipe(
-      tap((val) => {
-        console.log('Is User Authentication is successful: ' + val);
+  login(loginRequest: LoginRequest) {
+    this._httpClient
+      .post<AuthenticatedResponse>(`${this.getUrl()}/login`, loginRequest, {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       })
-    );
+      .subscribe({
+        next: (response: AuthenticatedResponse) => {
+          const token = response.token;
+          localStorage.setItem(JWT, token);
+
+          const refreshToken = response.refreshToken;
+          localStorage.setItem(REFRESHTOKEN, refreshToken);
+
+          this.isUserLoggedIn = false;
+          this.router.navigate(['/']);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.isUserLoggedIn = true;
+          this.snackBar.open('Enter data are invalid!!!', undefined, {
+            duration: 2000,
+          });
+        },
+      });
   }
 
   logout(): void {
     this.isUserLoggedIn = false;
-    localStorage.removeItem('isUserLoggedIn');
+    localStorage.removeItem(JWT);
+    localStorage.removeItem(REFRESHTOKEN);
   }
 
-  constructor(httpClient: HttpClient) {
+  constructor(
+    httpClient: HttpClient,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {
     super(httpClient);
     this.entityType = 'auth';
   }

@@ -41,9 +41,12 @@
     </section>
     <section>
       <mat-form-field appearance="outline">
-        <mat-label>Birth</mat-label>
+        <mat-label>
+          {{ employee.person.birth | date : "yyyy-MM-dd" }}
+        </mat-label>
         <input
           type="date"
+          [matDatepicker]="picker"
           matInput
           [readonly]="!isAdmin"
           [(ngModel)]="employee.person.birth"
@@ -114,7 +117,11 @@
     </section>
     <section>
       <mat-label>Ranks</mat-label>
-      <mat-select [(ngModel)]="employee.employeeId" name="working">
+      <mat-select
+        [(ngModel)]="employee.employeeId"
+        [readonly]="!isAdmin"
+        name="working"
+      >
         <mat-option
           *ngFor="let work of employee.working"
           [value]="work.workingId"
@@ -128,18 +135,66 @@
         <mat-label>CarrerInfo</mat-label>
         <textarea
           matInput
+          [readonly]="!isAdmin"
           [(ngModel)]="employee.careerInfo"
           name="careerInfo"
         ></textarea>
       </mat-form-field>
     </section>
-    <button
-      type="submit"
-      *ngIf="isAdmin"
-      class="button centered-column"
-      (click)="onUpdate()"
-    >
-      Update changes
-    </button>
+    <section *ngIf="isAdmin" style="justify-self: center">
+      <button (click)="onDelete()" mat-mini-fab color="warn">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+    </section>
+    <section *ngIf="isAdmin" style="justify-self: center">
+      <button
+        type="submit"
+        style="width: 100%"
+        class="button centered-column"
+        (click)="onUpdate()"
+      >
+        Update changes
+      </button>
+    </section>
   </div>
 </form>
+
+<div style="margin: 10px 0">
+  <button class="app-button" (click)="printPdf()">Download PDF</button>
+</div>
+
+<div id="print" style="width: 80%">
+  <table class="table-pdf">
+    <tr>
+      <th>First name</th>
+      <th>Second name</th>
+      <th>Patronymic</th>
+      <th>Birth</th>
+      <th>Address</th>
+    </tr>
+    <tr>
+      <td>{{ employee.person.firstName }}</td>
+      <td>{{ employee.person.secondName }}</td>
+      <td>{{ employee.person.patronymic }}</td>
+      <td>{{ employee.person.birth }}</td>
+      <td>{{ employee.person.address }}</td>
+    </tr>
+    <tr>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Faculty</th>
+      <th>CarrerInfo</th>
+      <th>Ranks</th>
+    </tr>
+    <tr>
+      <td>{{ employee.person.phone }}</td>
+      <td>{{ employee.person.email }}</td>
+      <td>{{ employee.faculty.facultyName }}</td>
+      <td>{{ employee.careerInfo }}</td>
+      <td>
+        {{ employee.working[0].rank.rankName }}
+        {{ employee.working[0].issuedYear }}
+      </td>
+    </tr>
+  </table>
+</div>

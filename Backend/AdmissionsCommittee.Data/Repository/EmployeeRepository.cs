@@ -27,7 +27,7 @@ namespace AdmissionsCommittee.Data.Repository
         public async override Task<Employee> GetByIdAsync(int id)
         {
             var query = QueryBuilder.MsSqlQueryToString(GetByIdQuery(id));
-            return (await GetAllAsync(query)).First();
+            return (await GetAllAsync(query)).FirstOrDefault();
         }
 
         public async override Task<IEnumerable<Employee>> PaginateAsync(

@@ -30,29 +30,30 @@ public class SwaggerInstaller : IInstaller
                 Title = "AdmissionsCommittee"
             });
         
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-            {
-                BearerFormat = "Bearer {jwt}",
-                Description = "Please insert JWT into field",
-                In = ParameterLocation.Header,
-                Scheme = JwtBearerDefaults.AuthenticationScheme,
-                Type = SecuritySchemeType.ApiKey,
-                Name = "Authorization"
-            });
+            //options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+            //{
+            //    BearerFormat = "Bearer {jwt}",
+            //    Description = "Please insert JWT into field",
+            //    In = ParameterLocation.Header,
+            //    Scheme = JwtBearerDefaults.AuthenticationScheme,
+            //    Type = SecuritySchemeType.ApiKey,
+            //    Name = "Authorization"
+            //});
             
-            var securityScheme = new OpenApiSecurityScheme()
-            {
-                Reference = new OpenApiReference()
-                {
-                    Id = "Bearer",
-                    Type = ReferenceType.SecurityScheme
-                }
-            };
+            //var securityScheme = new OpenApiSecurityScheme()
+            //{
+            //    Reference = new OpenApiReference()
+            //    {
+            //        Id = "Bearer",
+            //        Type = ReferenceType.SecurityScheme
+            //    }
+            //};
             
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-            {
-                {securityScheme, new string[] {} }
-            });
+            //options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+            //{
+            //    {securityScheme, new string[] {} }
+            //});
+
             // xml comments
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);

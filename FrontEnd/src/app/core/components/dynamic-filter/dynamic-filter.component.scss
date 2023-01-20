@@ -1,0 +1,14 @@
+.dynamic-filter-form {
+  @apply bg-slate-300 p-4 mb-4 flex justify-between items-center flex-auto;
+
+  .dynamic-filter-header {
+    font-size: 30px;
+    font-family: "Nunito", "sans-serif";
+    font-weight: bolder;
+  }
+
+  .flex-box {
+    display: flex;
+    gap: 1rem;
+  }
+}

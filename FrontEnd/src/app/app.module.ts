@@ -47,7 +47,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { ApplicantsComponent } from './modules/applicants/applicants.component';
+import { ApplicantsComponent } from './modules/applicants/applicants-overview/applicants.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { GreetingComponent } from './modules/greeting/greeting.component';
@@ -66,6 +66,18 @@ import { LoginComponent } from './core/components/login/login.component';
 import { LogoutComponent } from './core/components/logout/logout.component';
 import { SpecialityStatisticComponent } from './modules/speciality/speciality-statistics/speciality-statistic.component';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { DynamicFilterComponent } from './core/components/dynamic-filter/dynamic-filter.component';
+import { EmployeesModule } from './modules/employees/employees.module';
+import { ApplicantsModule } from './modules/applicants/applicants.module';
+import { SpecialityModule } from './modules/speciality/speciality.module';
+import { NotFoundComponent } from './core/components/error-pages/not-found/not-found.component';
+import { InternalServerComponent } from './core/components/error-pages/internal-server/internal-server.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import { JWT } from './core/constans/auth';
+
+export function tokenGetter() {
+  return localStorage.getItem(JWT);
+}
 
 @NgModule({
   declarations: [
@@ -84,6 +96,9 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     LoginComponent,
     LogoutComponent,
     SpecialityStatisticComponent,
+    DynamicFilterComponent,
+    NotFoundComponent,
+    InternalServerComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,6 +106,14 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:7151'],
+        disallowedRoutes: [],
+      },
+    }),
 
     HttpClientModule,
     FormsModule,
@@ -134,6 +157,9 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     MatSortModule,
     MatTableModule,
     MatMomentDateModule,
+    EmployeesModule,
+    ApplicantsModule,
+    SpecialityModule,
   ],
   exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // To tell Angular that we're going to use custom html inside our app

@@ -1,0 +1,37 @@
+<form
+  class="dynamic-filter-form"
+  [formGroup]="form"
+  (ngSubmit)="searchByDynamicFields()"
+>
+  <h3 class="dynamic-filter-header">Filters</h3>
+  <div formArrayName="dynamicFilters">
+    <div
+      *ngFor="let dynamicFilter of dynamicFilters?.controls; let i = index"
+      [formGroupName]="i"
+      class="flex-box"
+    >
+      <mat-form-field appearance="fill">
+        <mat-label>Field Name</mat-label>
+        <mat-select formControlName="fieldName">
+          <mat-option *ngFor="let field of fields" [value]="field">
+            {{ field }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Value</mat-label>
+        <input formControlName="value" matInput placeholder="enter value" />
+      </mat-form-field>
+      <button (click)="deleteDynamicFilter(i)" mat-mini-fab color="warn">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="flex-box">
+    <button class="app-button" type="button" (click)="addDynamicFilter()">
+      Add dynamic Filter
+    </button>
+    <button class="app-button" type="submit">Search</button>
+  </div>
+</form>

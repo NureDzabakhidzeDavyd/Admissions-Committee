@@ -2,6 +2,8 @@
 using AdmissionsCommittee.Core.Data;
 using AdmissionsCommittee.Core.Domain.Filters;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdmissionsCommittee.Api.V1.Controllers
@@ -19,7 +21,7 @@ namespace AdmissionsCommittee.Api.V1.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> GetAll(
             [FromQuery] PaginationFilter paginationFilter,
             [FromQuery] SortFilter? sortFilter = null,

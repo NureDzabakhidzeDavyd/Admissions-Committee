@@ -48,7 +48,28 @@ namespace AdmissionsCommittee.Api.V1.Controllers
         /// Create new employee
         /// </summary>
         /// <param name="request">Employee information</param>
-        /// <returns>New employee</returns>
+        /// <remarks>
+        /// Sample request:
+        ///  <br />    {
+        ///     <br />     "person": {
+        ///      <br />    "firstName": "Максим",
+        ///     <br />     "secondName": "Радченок",
+        ///      <br />    "patronymic": "доавдіоадо",
+        ///     <br />     "address": "Маяковьского",
+        ///     <br />     "birth": "2013-06-23",
+        ///      <br />    "email": "lfjgld@gmail.com",
+        ///      <br />    "phone": "sdlfjsldf"
+        ///   <br />   },
+        ///    <br />      "facultyId": 4,
+        ///     <br />     "working": [
+        ///   <br />   {
+        ///    <br />         "rankId": 20,
+        ///    <br />         "issuedYear": 2015
+        ///    <br />  }
+        ///    <br />  ],
+        ///    <br />      "careerInfo": "Він крутий"
+        ///    <br />  }
+        /// </remarks>
         [HttpPost]
         [ProducesResponseType(typeof(EmployeeResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -102,16 +123,23 @@ namespace AdmissionsCommittee.Api.V1.Controllers
             return Ok(newEmployee);
         }
 
+        /// <summary>
+        /// Delete employee by id
+        /// </summary>
+        /// <param name="applicantId"></param>
+        /// <returns></returns>
         [HttpDelete("{employeeId:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteEmployeeById([FromRoute] int employeeId)
         {
-             var person = await _unitOfWork.PersonRepository.GetByIdAsync(employeeId);
-            if(person is null)
+             var employee = await _unitOfWork.EmployeeRepository.GetByIdAsync(employeeId);
+            if(employee is null)
             {
                 return NotFound();
             }
 
-            await _unitOfWork.PersonRepository.DeleteByIdAsync(person.PersonId);
+            await _unitOfWork.EmployeeRepository.DeleteByIdAsync(employee.EmployeeId);
             return NoContent();
         }
     }

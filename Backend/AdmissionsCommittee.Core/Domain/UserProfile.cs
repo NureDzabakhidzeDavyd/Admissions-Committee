@@ -11,6 +11,7 @@ namespace AdmissionsCommittee.Core.Domain
     [Table(nameof(UserProfile))]
     public class UserProfile
     {
+        [Key]
         public int UserId { get; set; }
 
         [JsonProperty("id")]
@@ -32,7 +33,8 @@ namespace AdmissionsCommittee.Core.Domain
         [JsonProperty("locale")]
         public string Country { get; set; }
 
-        [JsonIgnore]
         public string RefreshToken { get; set; }
+        public string Password { get; set; }
+        public DateTime RefreshTokenExpiryTime { get; set; }
     }
 }

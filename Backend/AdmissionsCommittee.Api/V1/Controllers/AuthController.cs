@@ -1,5 +1,7 @@
-﻿using AdmissionsCommittee.Contracts.V1.Response;
+﻿using AdmissionsCommittee.Contracts.V1.Request;
+using AdmissionsCommittee.Contracts.V1.Response;
 using AdmissionsCommittee.Core.Data;
+using AdmissionsCommittee.Core.Domain;
 using AdmissionsCommittee.Core.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -56,15 +58,15 @@ namespace AdmissionsCommittee.Api.V1.Controllers
         /// </summary>
         /// <param name="refreshToken"></param>
         /// <returns></returns>
-        [HttpPost("refresh")]
-        public async Task<IActionResult> RefreshAccessToken(string refreshToken)
-        {
-            var newAccessToken = await _googleService.RefreshAccessToken(refreshToken);
+        //[HttpPost("refresh")]
+        //public async Task<IActionResult> RefreshAccessToken(string refreshToken)
+        //{
+        //    var newAccessToken = await _googleService.RefreshAccessToken(refreshToken);
 
-            var result = _mapper.Map<GoogleAuthCodeResponse>(newAccessToken);
+        //    var result = _mapper.Map<GoogleAuthCodeResponse>(newAccessToken);
 
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
 
         [HttpGet]
 
@@ -94,6 +96,63 @@ namespace AdmissionsCommittee.Api.V1.Controllers
             Response.Headers.Add("Bearer", $"Bearer {jwtAuthenticationToken}");
 
             return Ok(result);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByCredentials(request.UserName, request.Password);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var refreshToken = _googleService.GenerateRefreshToken();
+
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+
+            await _unitOfWork.UserRepository.UpdateAsync(user);
+
+            var jwtToken = _googleService.WriteJwtToken("https://localhost:7151", user.FirstName);
+
+            var response = new AuthenticatedResponse
+            {
+                Token = jwtToken,
+                RefreshToken = refreshToken
+            };
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("refresh")]
+        public async Task<IActionResult> Refresh(UpdateAccessTokenRequest request)
+        {
+            if (request is null)
+            {
+                return BadRequest("Invalid client request");
+            }
+            string accessToken = request.AccessToken;
+            string refreshToken = request.RefreshToken;
+
+            var principal = _googleService.GetPrincipalFromExpiredToken(accessToken);
+
+            var user = await _unitOfWork.UserRepository.GetByFirstName(principal.Identity.Name);
+            if (user is null)
+            {
+                return Unauthorized();
+            }
+
+            var newAccessToken = _googleService.WriteJwtToken("https://localhost:7151", user.FirstName);
+            var newRefreshToken = _googleService.GenerateRefreshToken();
+            user.RefreshToken = newRefreshToken;
+            await _unitOfWork.UserRepository.UpdateAsync(user);
+
+            return Ok(new AuthenticatedResponse()
+            {
+                Token = newAccessToken,
+                RefreshToken = newRefreshToken
+            });
         }
     }
 }

@@ -2,10 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Applicant } from '../../models/ui-models/applicant.model';
-import { ApplicantService } from '../../core/services/applicant.service';
-import { DynamicFilters } from '../../models/api-models/filters/dynamicFilters';
-import { DynamicFilter } from '../../models/api-models/filters/dynamicFilter';
+import { Applicant } from '../../../models/ui-models/applicant.model';
+import { ApplicantService } from '../../../core/services/applicant.service';
+import { DynamicFilters } from 'src/app/models/api-request/dynamic-filter/dynamicFilters';
 
 @Component({
   selector: 'app-applicants',
@@ -32,26 +31,28 @@ export class ApplicantsComponent implements OnInit {
   @ViewChild(MatPaginator) matPaginator!: MatPaginator;
   @ViewChild(MatSort) matSort!: MatSort;
 
-  getApplicantFilter() {
-    this.applicantService
-      .getApplicantsByFilters({
-        filters: [{ fieldName: 'firstName', Value: 'Микита', FieldType: 1 }],
-      })
-      .subscribe((success) => {
-        console.log(success);
-        this.applicants = success;
-        this.dataSource = new MatTableDataSource<Applicant>(this.applicants);
+  public getAllByFilters(dynamicFilters: DynamicFilters) {
+    console.log(dynamicFilters);
+    if (dynamicFilters.filters.length > 0) {
+      this.applicantService.getAllByDynamicFilters(dynamicFilters).subscribe({
+        next: (value) => {
+          this.applicants = value;
+          this.dataSource = new MatTableDataSource<Applicant>(this.applicants);
+          this.dataSource.paginator = this.matPaginator;
+          this.dataSource.sort = this.matSort;
+        },
       });
+    } else {
+      this.getApplicants();
+    }
   }
 
-  ngOnInit() {
-    // Fetch students
+  public getApplicants() {
     this.applicantService.getApplicants().subscribe(
       (success) => {
         console.log(success);
         this.applicants = success;
         this.dataSource = new MatTableDataSource<Applicant>(this.applicants);
-        //   this.getApplicantFilter();
 
         if (this.matPaginator) {
           this.dataSource.paginator = this.matPaginator;
@@ -65,5 +66,9 @@ export class ApplicantsComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  ngOnInit() {
+    this.getApplicants();
   }
 }

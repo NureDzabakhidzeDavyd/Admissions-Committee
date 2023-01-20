@@ -14,8 +14,6 @@ namespace AdmissionsCommittee.Core.Domain
         public int ApplicantId { get; set; }
         public float Certificate { get; set; }
 
-        //[Write(false)]
-        //public IEnumerable<Statement> Statements { get; set; }
         [Write(false)]
         public Person Person { get; set; }
     }

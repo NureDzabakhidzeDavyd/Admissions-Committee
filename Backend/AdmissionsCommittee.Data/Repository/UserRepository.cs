@@ -22,5 +22,27 @@ namespace AdmissionsCommittee.Data.Repository
             var result = await Connection.QuerySingleOrDefaultAsync<UserProfile?>(sql, new { email });
             return result;
         }
+
+        public async Task<UserProfile> GetUserByCredentials(string userName, string password)
+        {
+            var query = new Query(nameof(UserProfile)).Where(new
+            {
+                FirstName = userName,
+                Password = password,
+            });
+            var sql = QueryBuilder.MsSqlQueryToString(query);
+            var user = await Connection.QuerySingleOrDefaultAsync<UserProfile>(sql);
+
+            return user;
+        }
+
+        public async Task<UserProfile> GetByFirstName(string username)
+        {
+            var query = new Query(nameof(UserProfile)).Where(nameof(UserProfile.FirstName), "=", username);
+            var sql = QueryBuilder.MsSqlQueryToString(query);
+            var user = await Connection.QuerySingleOrDefaultAsync<UserProfile>(sql, new { username });
+            return user;
+        }
+
     }
 }
