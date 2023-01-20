@@ -1,4 +1,5 @@
 ﻿using AdmissionsCommittee.Core.Domain;
+using SqlKata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace AdmissionsCommittee.Core.Data
 {
     public interface IWorkingRepository : IRepository<Working>
     {
+        public Task<IEnumerable<Working>> GetEmployeeWorkingsAsync(int employeeId);
     }
 }

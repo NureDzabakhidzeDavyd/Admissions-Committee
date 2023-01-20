@@ -1,0 +1,7 @@
+td,
+th {
+  // white-space: normal;
+  word-wrap: break-word;
+  // max-width: 200px;
+  @apply whitespace-normal max-w-[200px];
+}

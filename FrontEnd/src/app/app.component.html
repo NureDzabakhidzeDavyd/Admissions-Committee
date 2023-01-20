@@ -8,7 +8,17 @@
       <ul>
         <li><a href="#" routerLink="/employees">Викладачі</a></li>
         <li><a href="#" routerLink="/applicants">Абітурієнти</a></li>
-        <!-- <li><a href="#" routerLink="/speciality">Спеціальності</a></li> -->
+        <li><a href="#" routerLink="/specialities">Спеціальності</a></li>
+        <li class="nav-item">
+          <div *ngIf="getUserLoggedIn; else login">
+            <a class="nav-link" routerLink="/logout">Logout</a>
+          </div>
+          <ng-template #login>
+            <div>
+              <a class="nav-link" routerLink="/login">Login</a>
+            </div>
+          </ng-template>
+        </li>
       </ul>
     </nav>
   </div>

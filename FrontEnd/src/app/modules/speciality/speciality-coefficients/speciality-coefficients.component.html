@@ -1,0 +1,9 @@
+<div class="coefficients">
+  <h3 class="coefficients-header">Coefficients</h3>
+  <ul *ngIf="coefficients">
+    <li *ngFor="let coefficient of coefficients">
+      <p class="eie">{{ coefficient.eie.eieName }}</p>
+      <p class="coefficient">{{ coefficient.coefficientValue }}</p>
+    </li>
+  </ul>
+</div>

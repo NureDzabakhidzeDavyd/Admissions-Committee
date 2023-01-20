@@ -51,8 +51,10 @@ namespace AdmissionsCommittee.Data.Helpers
             switch (dynamicFilter.FieldType)
             {
                 case (int)FieldType.Number:
-                case (int)FieldType.Text:
                     GetAllQuery.Where(dynamicFilter.FieldName, "=", dynamicFilter.Value);
+                    break;
+                case (int)FieldType.Text:
+                    GetAllQuery.WhereLike(dynamicFilter.FieldName, $"%{dynamicFilter.Value}%");
                     break;
                 default:
                     throw new ArgumentException($"{dynamicFilter.FieldType} doesn't exist");
@@ -63,11 +65,11 @@ namespace AdmissionsCommittee.Data.Helpers
         {
             if (sortFilter.Descending)
             {
-                GetAllQuery.OrderByDesc(sortFilter.Field);
+                GetAllQuery.OrderByDesc($"{TableName}.{sortFilter.Field}");
             }
             else
             {
-                GetAllQuery.OrderBy(sortFilter.Field);
+                GetAllQuery.OrderBy($"{TableName}.{sortFilter.Field}");
             }
         }
 
@@ -89,7 +91,13 @@ namespace AdmissionsCommittee.Data.Helpers
         {
             var compiler = new SqlServerCompiler();
             SqlResult sqlResult = compiler.Compile(query);
-            return sqlResult.ToString();
+            var result = sqlResult.ToString();
+            if (result.Contains("like"))
+            {
+                var index = result.IndexOf("like") + "like".Length + 1;
+                result = result.Insert(index, " N");
+            }
+            return result;
         }
     }
 }

@@ -1,6 +1,4 @@
-<div class="page-header">
-  <div class="container"><h2>Employees</h2></div>
-</div>
+<app-page-header [title]="'Employee'"></app-page-header>
 
 <form id="employeeDetailsForm" #employeeDetailsForm="ngForm">
   <div class="box-info">
@@ -10,6 +8,7 @@
         <mat-label>First name</mat-label>
         <input
           type="text"
+          [readonly]="!isAdmin"
           matInput
           [(ngModel)]="employee.person.firstName"
           name="firstName"
@@ -22,6 +21,7 @@
         <input
           type="text"
           matInput
+          [readonly]="!isAdmin"
           [(ngModel)]="employee.person.secondName"
           name="secondName"
         />
@@ -32,6 +32,7 @@
         <mat-label>Patronymic</mat-label>
         <input
           type="text"
+          [readonly]="!isAdmin"
           matInput
           [(ngModel)]="employee.person.patronymic"
           name="patronymic"
@@ -40,13 +41,22 @@
     </section>
     <section>
       <mat-form-field appearance="outline">
-        <mat-label>Birth</mat-label>
+        <mat-label>
+          {{ employee.person.birth | date : "yyyy-MM-dd" }}
+        </mat-label>
         <input
           type="date"
+          [matDatepicker]="picker"
           matInput
+          [readonly]="!isAdmin"
           [(ngModel)]="employee.person.birth"
           name="birth"
         />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
     </section>
     <section>
@@ -55,6 +65,7 @@
         <input
           type="text"
           matInput
+          [readonly]="!isAdmin"
           [(ngModel)]="employee.person.address"
           name="address"
         />
@@ -66,6 +77,7 @@
         <input
           type="text"
           matInput
+          [readonly]="!isAdmin"
           [(ngModel)]="employee.person.phone"
           name="phone"
         />
@@ -77,6 +89,7 @@
         <input
           type="email"
           matInput
+          [readonly]="!isAdmin"
           [(ngModel)]="employee.person.email"
           name="email"
         />
@@ -86,38 +99,102 @@
   <div class="box-info">
     <h3 class="box-header">Work information</h3>
     <section>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="fill">
         <mat-label>Faculty</mat-label>
-        <input
-          type="text"
-          matInput
-          [(ngModel)]="employee.faculty.facultyName"
+        <mat-select
+          [(value)]="employee.faculty.facultyId"
+          [placeholder]="employee.faculty.facultyName"
           name="faculty"
-        />
+        >
+          <mat-option
+            *ngFor="let faculty of faculties"
+            [value]="faculty.facultyId"
+          >
+            {{ faculty.facultyName }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </section>
     <section>
-      <mat-list>
-        <mat-label>Rank</mat-label>
-        <mat-list-item *ngFor="let work of employee.working">
-          <input type="text" matInput value="{{ work.rank.rankName }}" />
-          <input
-            type="text"
-            matInput
-            value="{{ work.issuedYear + ' року видано' }}"
-          />
-        </mat-list-item>
-      </mat-list>
+      <mat-label>Ranks</mat-label>
+      <mat-select
+        [(ngModel)]="employee.employeeId"
+        [readonly]="!isAdmin"
+        name="working"
+      >
+        <mat-option
+          *ngFor="let work of employee.working"
+          [value]="work.workingId"
+        >
+          {{ work.rank.rankName }} {{ work.issuedYear }}
+        </mat-option>
+      </mat-select>
     </section>
     <section class="centered-column">
       <mat-form-field appearance="outline">
         <mat-label>CarrerInfo</mat-label>
         <textarea
           matInput
+          [readonly]="!isAdmin"
           [(ngModel)]="employee.careerInfo"
           name="careerInfo"
         ></textarea>
       </mat-form-field>
     </section>
+    <section *ngIf="isAdmin" style="justify-self: center">
+      <button (click)="onDelete()" mat-mini-fab color="warn">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+    </section>
+    <section *ngIf="isAdmin" style="justify-self: center">
+      <button
+        type="submit"
+        style="width: 100%"
+        class="button centered-column"
+        (click)="onUpdate()"
+      >
+        Update changes
+      </button>
+    </section>
   </div>
 </form>
+
+<div style="margin: 10px 0">
+  <button class="app-button" (click)="printPdf()">Download PDF</button>
+</div>
+
+<div id="print" style="width: 80%">
+  <table class="table-pdf">
+    <tr>
+      <th>First name</th>
+      <th>Second name</th>
+      <th>Patronymic</th>
+      <th>Birth</th>
+      <th>Address</th>
+    </tr>
+    <tr>
+      <td>{{ employee.person.firstName }}</td>
+      <td>{{ employee.person.secondName }}</td>
+      <td>{{ employee.person.patronymic }}</td>
+      <td>{{ employee.person.birth }}</td>
+      <td>{{ employee.person.address }}</td>
+    </tr>
+    <tr>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Faculty</th>
+      <th>CarrerInfo</th>
+      <th>Ranks</th>
+    </tr>
+    <tr>
+      <td>{{ employee.person.phone }}</td>
+      <td>{{ employee.person.email }}</td>
+      <td>{{ employee.faculty.facultyName }}</td>
+      <td>{{ employee.careerInfo }}</td>
+      <td>
+        {{ employee.working[0].rank.rankName }}
+        {{ employee.working[0].issuedYear }}
+      </td>
+    </tr>
+  </table>
+</div>

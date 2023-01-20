@@ -36,7 +36,7 @@ namespace AdmissionsCommittee.Data.Repository
             return entity;
         }
 
-        public async Task<IEnumerable<T>> CreateManyAsync(IEnumerable<T> entities)
+        public virtual async Task<IEnumerable<T>> CreateManyAsync(IEnumerable<T> entities)
         {
             await Connection.InsertAsync(entities);
 
@@ -47,6 +47,12 @@ namespace AdmissionsCommittee.Data.Repository
         {
             await Connection.UpdateAsync(entity);
             return entity;
+        }
+
+        public async Task<IEnumerable<T>> UpdateManyAsync(IEnumerable<T> entities)
+        {
+            await Connection.UpdateAsync(entities);
+            return entities;
         }
 
         public async Task DeleteAsync(T entity)

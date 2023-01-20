@@ -1,5 +1,5 @@
 import { Faculty } from './faculty';
-import { Person } from './person.model';
+import { Person } from './person';
 import { Working } from './working';
 
 export interface Employee {

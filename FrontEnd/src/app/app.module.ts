@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, NativeDateAdapter } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
@@ -47,13 +47,37 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { ApplicantsComponent } from './modules/applicants/applicants.component';
+import { ApplicantsComponent } from './modules/applicants/applicants-overview/applicants.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { GreetingComponent } from './modules/greeting/greeting.component';
 import { EmployeesComponent } from './modules/employees/employees-overview/employees.component';
 import { EmployeeDetailsComponent } from './modules/employees/employee-details/employee-details.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PageWrapperComponent } from './core/components/page-wrapper/page-wrapper.component';
+import { EmployeeWorkingsComponent } from './modules/employees/employee-workings/employee-workings.component.';
+import { SpecialityComponent } from './modules/speciality/speciality-overview/specialities.component';
+import { SpecialityDetailsComponent } from './modules/speciality/speciality-details/speciality-details.component';
+import { PageHeaderComponent } from './core/components/page-header/page-header/page-header.component';
+import { SpecialityCoefficientsComponent } from './modules/speciality/speciality-coefficients/speciality-coefficients.component';
+import { CommonModule, DatePipe } from '@angular/common';
+import { CompetitiveScoreComponent } from './modules/speciality/speciality-competitive-score/speciality-competitive-score.component';
+import { LoginComponent } from './core/components/login/login.component';
+import { LogoutComponent } from './core/components/logout/logout.component';
+import { SpecialityStatisticComponent } from './modules/speciality/speciality-statistics/speciality-statistic.component';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { DynamicFilterComponent } from './core/components/dynamic-filter/dynamic-filter.component';
+import { EmployeesModule } from './modules/employees/employees.module';
+import { ApplicantsModule } from './modules/applicants/applicants.module';
+import { SpecialityModule } from './modules/speciality/speciality.module';
+import { NotFoundComponent } from './core/components/error-pages/not-found/not-found.component';
+import { InternalServerComponent } from './core/components/error-pages/internal-server/internal-server.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import { JWT } from './core/constans/auth';
+
+export function tokenGetter() {
+  return localStorage.getItem(JWT);
+}
 
 @NgModule({
   declarations: [
@@ -62,14 +86,38 @@ import { FormsModule } from '@angular/forms';
     GreetingComponent,
     EmployeesComponent,
     EmployeeDetailsComponent,
+    PageWrapperComponent,
+    EmployeeWorkingsComponent,
+    SpecialityComponent,
+    SpecialityDetailsComponent,
+    PageHeaderComponent,
+    SpecialityCoefficientsComponent,
+    CompetitiveScoreComponent,
+    LoginComponent,
+    LogoutComponent,
+    SpecialityStatisticComponent,
+    DynamicFilterComponent,
+    NotFoundComponent,
+    InternalServerComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:7151'],
+        disallowedRoutes: [],
+      },
+    }),
 
     HttpClientModule,
     FormsModule,
+    CommonModule,
 
     // Angular materials
     MatAutocompleteModule,
@@ -108,9 +156,14 @@ import { FormsModule } from '@angular/forms';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
+    MatMomentDateModule,
+    EmployeesModule,
+    ApplicantsModule,
+    SpecialityModule,
   ],
+  exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // To tell Angular that we're going to use custom html inside our app
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

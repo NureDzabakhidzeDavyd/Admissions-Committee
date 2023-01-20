@@ -1,0 +1,36 @@
+<!-- <nav>
+  <h3>Statistics for previous years</h3>
+  <ul class="statistics">
+    <li *ngFor="let statistic of statistics">
+      <h4>{{ statistic.statisticYear }}</h4>
+      <div>
+        <p>{{ statistic.budgetMin }}</p>
+        <p>{{ statistic.budgetAver }}</p>
+        <p>{{ statistic.contractMin }}</p>
+        <p>{{ statistic.contractAver }}</p>
+      </div>
+    </li>
+  </ul>
+</nav> -->
+
+<table mat-table [dataSource]="statistics" class="mat-elevation-z8">
+  <ng-container
+    *ngFor="let column of columns"
+    [matColumnDef]="column.columnDef"
+  >
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      style="text-align: center"
+      class="app-text statistics-text statistics-text-header"
+    >
+      {{ column.header }}
+    </th>
+    <td mat-cell *matCellDef="let row" class="app-text statistics-text">
+      {{ column.cell(row) }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

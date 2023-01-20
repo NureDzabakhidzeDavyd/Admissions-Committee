@@ -22,6 +22,8 @@ namespace AdmissionsCommittee.Api.Mapper
             CreateMap<Applicant, ApplicantResponse>();
             CreateMap<Mark, MarkResponse>();
             CreateMap<CompetitiveScoreStatistic, CompetitiveScoreStatisticResponse>();
+            CreateMap<Faculty, FacultyResponse>();
+            CreateMap<UserProfile, UserProfileResponse>();
         }
     }
 }

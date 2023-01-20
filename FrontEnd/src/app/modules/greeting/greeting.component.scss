@@ -5,16 +5,12 @@ p::first-letter {
 
 .container {
   width: 800px;
-  // background-color: #fafbd1e7;
   margin: 0 auto;
 }
 
 /* PAGE SECTION */
 
 .section-info {
-  // background-color: #fafbd1e7;
-  // border-top: 3px solid #f87070;
-  // border-bottom: 3px solid #f87070;
   display: grid;
   padding: 15px;
   grid-template-columns: 1fr 1fr;
@@ -27,11 +23,13 @@ p::first-letter {
   padding: 0 20px;
 
   P {
+    font-size: 18px;
+    line-height: 1.5;
     margin: 15px 0;
   }
 
   li {
-    line-height: 1.6;
+    line-height: 1.8;
   }
 }
 
@@ -57,4 +55,9 @@ a {
   &:active {
     text-decoration: underline;
   }
+}
+
+.section-text h3 {
+  font-size: 32px;
+  font-weight: 700;
 }

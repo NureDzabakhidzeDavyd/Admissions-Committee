@@ -1,0 +1,6 @@
+<mat-label>Workings</mat-label>
+<mat-select [(ngModel)]="workings" name="workings">
+  <mat-option *ngFor="let work of workings" [value]="work.workingId">
+    {{ work.rank.rankName }} {{ work.issuedYear }}
+  </mat-option>
+</mat-select>

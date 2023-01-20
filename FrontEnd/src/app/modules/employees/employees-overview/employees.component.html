@@ -2,6 +2,11 @@
   <div class="container"><h2>Employees</h2></div>
 </div>
 
+<app-dynamic-filter
+  (onDynamicSearch)="getAllByFilters($event)"
+  [fields]="displayedColumns"
+></app-dynamic-filter>
+
 <div class="container mat-elevation-z8">
   <table mat-table matSort [dataSource]="dataSource">
     <!-- ApplicantId Column -->

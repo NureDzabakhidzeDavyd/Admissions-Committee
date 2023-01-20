@@ -20,7 +20,8 @@ namespace AdmissionsCommittee.Data.Repository
             IEieRepository eieRepository,
             ICoefficientRepository coefficientRepository,
             IStatisticRepository statisticRepository,
-            IMarkRepository markRepository)
+            IMarkRepository markRepository,
+            IUserRepository userRepository)
         {
             SpecialtyRepository = specialtyRepository;
             FacultyRepository = facultyRepository;
@@ -34,6 +35,7 @@ namespace AdmissionsCommittee.Data.Repository
             CoefficientRepository = coefficientRepository;
             StatisticRepository = statisticRepository;
             MarkRepository = markRepository;
+            UserRepository = userRepository;
         }
 
         public ISpecialtyRepository SpecialtyRepository { get; set; }
@@ -48,5 +50,6 @@ namespace AdmissionsCommittee.Data.Repository
         public ICoefficientRepository CoefficientRepository { get; set; }
         public IStatisticRepository StatisticRepository { get; set; }
         public IMarkRepository MarkRepository { get; set; }
+        public IUserRepository UserRepository { get; set; }
     }
 }

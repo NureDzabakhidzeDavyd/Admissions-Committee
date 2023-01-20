@@ -27,7 +27,7 @@ namespace AdmissionsCommittee.Data.Repository
         public async override Task<Employee> GetByIdAsync(int id)
         {
             var query = QueryBuilder.MsSqlQueryToString(GetByIdQuery(id));
-            return (await GetAllAsync(query)).First();
+            return (await GetAllAsync(query)).FirstOrDefault();
         }
 
         public async override Task<IEnumerable<Employee>> PaginateAsync(
@@ -67,7 +67,7 @@ namespace AdmissionsCommittee.Data.Repository
                     }
                     return groupedEmployee;
                 });
-            return employees;
+            return result;
         }
 
         private Query GetAllQuery()
