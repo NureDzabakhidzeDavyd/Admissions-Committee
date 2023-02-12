@@ -13,6 +13,7 @@ using Dapper.Contrib.Extensions;
 using Dapper;
 using AdmissionsCommittee.Data.Helpers;
 using AdmissionsCommittee.Core.Domain.Filters;
+using HandbookActivity.Core.Domain;
 
 namespace AdmissionsCommittee.Data.Repository
 {
@@ -65,6 +66,15 @@ namespace AdmissionsCommittee.Data.Repository
             await Connection.DeleteAsync(entityToDel);
         }
 
+        public async Task<int> CountAsync()
+        {
+            var query = new Query(TableName).AsCount();
+            var compileString = QueryBuilder.MsSqlQueryToString(query);
+
+            var result = await Connection.QueryFirstAsync<int>(compileString);
+            return result;
+        }
+
         public virtual async Task<T> GetByIdAsync(int id)
         {
             var result = await Connection.GetAsync<T>(id);
@@ -87,14 +97,16 @@ namespace AdmissionsCommittee.Data.Repository
             return result;
         }
 
-        public virtual async Task<IEnumerable<T>> PaginateAsync(PaginationFilter paginationFilter, SortFilter? sortFilter, DynamicFilters? dynamicFilters)
+        public virtual async Task<Page<T>> PaginateAsync(PaginationFilter paginationFilter, SortFilter? sortFilter, DynamicFilters? dynamicFilters)
         {
             QueryBuilder.GetAllQuery = new Query(TableName);
             QueryBuilder.TableName = TableName;
             var query = QueryBuilder.PaginateFilter(paginationFilter, sortFilter, dynamicFilters);
 
-            var result = await Connection.QueryAsync<T>(query);
-            return result;
+            var data = await Connection.QueryAsync<T>(query);
+            
+            var count = await CountAsync();
+            return new Page<T>(data, count);
         }
 
         #region Dispose pattern

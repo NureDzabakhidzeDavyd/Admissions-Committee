@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HandbookActivity.Core.Domain;
 
 namespace AdmissionsCommittee.Core.Data
 {
@@ -21,8 +22,8 @@ namespace AdmissionsCommittee.Core.Data
         public Task<IEnumerable<T>> GetAllAsync();
         public Task<IEnumerable<T>> GetManyByIdAsync(IEnumerable<int> ids, string columnName);
 
-        public Task<IEnumerable<T>> PaginateAsync(PaginationFilter paginationFilter,
-            SortFilter? sortFilter, DynamicFilters? dynamicFilters);
+        public Task<Page<T>> PaginateAsync(PaginationFilter paginationFilter,
+            SortFilter sortFilter, DynamicFilters dynamicFilters);
 
         //public Task<bool> EntitiesAreExist(IEnumerable<int> ids, string idName);
     }

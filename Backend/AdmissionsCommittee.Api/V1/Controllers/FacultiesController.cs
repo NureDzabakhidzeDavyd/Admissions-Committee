@@ -2,6 +2,7 @@
 using AdmissionsCommittee.Core.Data;
 using AdmissionsCommittee.Core.Domain.Filters;
 using AutoMapper;
+using HandbookActivity.Contracts.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,20 +29,20 @@ namespace AdmissionsCommittee.Api.V1.Controllers
             [FromQuery] DynamicFilters? dynamicFilters = null)
         {
             var employees = await _unitOfWork.FacultyRepository.PaginateAsync(paginationFilter, sortFilter, dynamicFilters);
-            var response = _mapper.Map<IEnumerable<FacultyResponse>>(employees);
+            var response = _mapper.Map<ApiListResponse<FacultyResponse>>(employees);
             return Ok(response);
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetByid([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var faculty = await _unitOfWork.EmployeeRepository.GetByIdAsync(id);
             if (faculty is null)
             {
-                return NotFound();
+                return NotFound($"Faculty with {id} doesn't exist".ToErrorResponse());
             }
             var response = _mapper.Map<FacultyResponse>(faculty);
-            return Ok(response);
+            return Ok(response.ToApiResponse());
         }
     }
 }

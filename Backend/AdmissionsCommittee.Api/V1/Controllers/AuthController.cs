@@ -4,6 +4,7 @@ using AdmissionsCommittee.Core.Data;
 using AdmissionsCommittee.Core.Domain;
 using AdmissionsCommittee.Core.Services;
 using AutoMapper;
+using HandbookActivity.Contracts.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdmissionsCommittee.Api.V1.Controllers
@@ -34,8 +35,8 @@ namespace AdmissionsCommittee.Api.V1.Controllers
         {
             var token = await _googleService.GetAccessTokenAsync(authCode);
 
-            var result = _mapper.Map<GoogleAuthCodeResponse>(token);
-            return Ok(result);
+            var response = _mapper.Map<GoogleAuthCodeResponse>(token);
+            return Ok(response.ToApiResponse());
         }
 
         /// <summary>
@@ -48,9 +49,9 @@ namespace AdmissionsCommittee.Api.V1.Controllers
         {
             var user = await _googleService.GetUserProfile(accessToken);
 
-            var result = _mapper.Map<UserProfileResponse>(user);
+            var response = _mapper.Map<UserProfileResponse>(user);
 
-            return Ok(result);
+            return Ok(response.ToApiResponse());
         }
 
         /// <summary>
@@ -90,12 +91,12 @@ namespace AdmissionsCommittee.Api.V1.Controllers
                 await _unitOfWork.UserRepository.CreateAsync(userInfo);
             }
 
-            var result = _mapper.Map<UserProfileResponse>(userInfo);
+            var response = _mapper.Map<UserProfileResponse>(userInfo);
 
             var jwtAuthenticationToken = _googleService.WriteJwtToken();
             Response.Headers.Add("Bearer", $"Bearer {jwtAuthenticationToken}");
 
-            return Ok(result);
+            return Ok(response.ToApiResponse());
         }
 
         [HttpPost("login")]
@@ -104,7 +105,7 @@ namespace AdmissionsCommittee.Api.V1.Controllers
             var user = await _unitOfWork.UserRepository.GetUserByCredentials(request.UserName, request.Password);
             if (user == null)
             {
-                return Unauthorized();
+                return Unauthorized($"Unathorized user".ToErrorResponse());
             }
 
             var refreshToken = _googleService.GenerateRefreshToken();
@@ -121,7 +122,7 @@ namespace AdmissionsCommittee.Api.V1.Controllers
                 Token = jwtToken,
                 RefreshToken = refreshToken
             };
-            return Ok(response);
+            return Ok(response.ToApiResponse());
         }
 
         [HttpPost]
@@ -130,7 +131,7 @@ namespace AdmissionsCommittee.Api.V1.Controllers
         {
             if (request is null)
             {
-                return BadRequest("Invalid client request");
+                return BadRequest("Invalid client request".ToApiResponse());
             }
             string accessToken = request.AccessToken;
             string refreshToken = request.RefreshToken;

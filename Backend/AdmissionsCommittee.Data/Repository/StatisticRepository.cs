@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HandbookActivity.Core.Domain;
 
 namespace AdmissionsCommittee.Data.Repository
 {
@@ -19,8 +20,8 @@ namespace AdmissionsCommittee.Data.Repository
         }
 
         public async Task<IEnumerable<Statistic>> GetAllSpecialityStatisticsAsync(PaginationFilter paginationFilter, 
-            SortFilter? sortFilter, 
-            DynamicFilters? dynamicFilters, 
+            SortFilter sortFilter, 
+            DynamicFilters dynamicFilters, 
             int specialityId)
         {
             QueryBuilder.GetAllQuery = new Query(TableName).Where(nameof(Statistic.SpecialityId), "=", specialityId);
@@ -31,14 +32,16 @@ namespace AdmissionsCommittee.Data.Repository
             return statistics;
         }
 
-        public async override Task<IEnumerable<Statistic>> PaginateAsync(PaginationFilter paginationFilter, SortFilter? sortFilter, DynamicFilters? dynamicFilters)
+        public override async Task<Page<Statistic>> PaginateAsync(PaginationFilter paginationFilter, SortFilter sortFilter, DynamicFilters dynamicFilters)
         {
             QueryBuilder.GetAllQuery = new Query(TableName);
             QueryBuilder.TableName = nameof(Employee);
 
             var query = QueryBuilder.PaginateFilter(paginationFilter, sortFilter, dynamicFilters);
-            var statistics = await Connection.QueryAsync<Statistic>(query);
-            return statistics;
+            var data = await Connection.QueryAsync<Statistic>(query);
+            
+            var count = await CountAsync();
+            return new Page<Statistic>(data, count);
         }
     }
 }

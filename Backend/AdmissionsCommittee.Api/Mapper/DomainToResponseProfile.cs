@@ -1,6 +1,8 @@
 ﻿using AdmissionsCommittee.Contracts.V1.Response;
 using AdmissionsCommittee.Core.Domain;
 using AutoMapper;
+using HandbookActivity.Contracts.Responses;
+using HandbookActivity.Core.Domain;
 
 namespace AdmissionsCommittee.Api.Mapper
 {
@@ -24,6 +26,18 @@ namespace AdmissionsCommittee.Api.Mapper
             CreateMap<CompetitiveScoreStatistic, CompetitiveScoreStatisticResponse>();
             CreateMap<Faculty, FacultyResponse>();
             CreateMap<UserProfile, UserProfileResponse>();
+            
+            CreateMap(typeof(Page<>), typeof(ApiListResponse<>)).ConvertUsing(typeof(PageListConverter<,>));
         }
     }
+    
+    class PageListConverter<T, TR> : ITypeConverter<Page<T>, ApiListResponse<TR>>
+    {
+        public ApiListResponse<TR> Convert(Page<T> source, ApiListResponse<TR> destination, ResolutionContext context)
+        {
+            var data = context.Mapper.Map<IEnumerable<TR>>(source.Data);
+            return ApiListResponse<TR>.CreateListResponse(data, source.TotalCount);
+        }
+    }
+    
 }

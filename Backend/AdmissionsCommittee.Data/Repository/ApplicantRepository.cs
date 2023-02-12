@@ -10,6 +10,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HandbookActivity.Core.Domain;
 
 namespace AdmissionsCommittee.Data.Repository
 {
@@ -19,7 +20,7 @@ namespace AdmissionsCommittee.Data.Repository
         {
         }
 
-        public override async Task<IEnumerable<Applicant>> PaginateAsync(PaginationFilter paginationFilter, SortFilter? sortFilter, DynamicFilters? dynamicFilters)
+        public override async Task<Page<Applicant>> PaginateAsync(PaginationFilter paginationFilter, SortFilter? sortFilter, DynamicFilters? dynamicFilters)
         {
             var personTableName = nameof(Person);
 
@@ -29,13 +30,14 @@ namespace AdmissionsCommittee.Data.Repository
             QueryBuilder.TableName = nameof(Employee);
 
             var query = QueryBuilder.PaginateFilter(paginationFilter, sortFilter, dynamicFilters);
-            var applicants = await Connection.QueryAsync<Applicant, Person, Applicant>(query, (applicant, person) =>
+            var data = await Connection.QueryAsync<Applicant, Person, Applicant>(query, (applicant, person) =>
             {
                 applicant.Person = person;
                 return applicant;
             }, splitOn: nameof(Person.PersonId));
 
-            return applicants;
+            var count = await CountAsync();
+            return new Page<Applicant>(data, count);
         }
 
         public override async Task<Applicant> GetByIdAsync(int id)

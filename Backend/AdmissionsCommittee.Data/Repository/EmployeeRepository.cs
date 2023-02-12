@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HandbookActivity.Core.Domain;
 
 namespace AdmissionsCommittee.Data.Repository
 {
@@ -30,16 +31,19 @@ namespace AdmissionsCommittee.Data.Repository
             return (await GetAllAsync(query)).FirstOrDefault();
         }
 
-        public override async Task<IEnumerable<Employee>> PaginateAsync(
+        public override async Task<Page<Employee>> PaginateAsync(
             PaginationFilter paginationFilter,
-            SortFilter? sortFilter,
-            DynamicFilters? dynamicFilters)
+            SortFilter sortFilter,
+            DynamicFilters dynamicFilters)
         {
             QueryBuilder.GetAllQuery = GetAllQuery();
             QueryBuilder.TableName = nameof(Employee);
 
             var query = QueryBuilder.PaginateFilter(paginationFilter, sortFilter, dynamicFilters);
-            return await GetAllAsync(query);
+            var data = await GetAllAsync(query);
+            
+            var count = await CountAsync();
+            return new Page<Employee>(data, count);
         }
 
         private async Task<IEnumerable<Employee>> GetAllAsync(string query)

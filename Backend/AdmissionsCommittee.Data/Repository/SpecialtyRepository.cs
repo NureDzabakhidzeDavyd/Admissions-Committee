@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HandbookActivity.Core.Domain;
 
 namespace AdmissionsCommittee.Data.Repository
 {
@@ -44,7 +45,7 @@ namespace AdmissionsCommittee.Data.Repository
             return result;
         }
 
-        public async override Task<IEnumerable<Speciality>> PaginateAsync(PaginationFilter paginationFilter, SortFilter? sortFilter, DynamicFilters? dynamicFilters)
+        public async override Task<Page<Speciality>> PaginateAsync(PaginationFilter paginationFilter, SortFilter? sortFilter, DynamicFilters? dynamicFilters)
         {
             QueryBuilder.GetAllQuery = GetAllQuery();
             QueryBuilder.TableName = nameof(Speciality);
@@ -61,14 +62,16 @@ namespace AdmissionsCommittee.Data.Repository
                     return speciality;
                 }, splitOn: $"{nameof(Faculty.FacultyId)}, {nameof(Coefficient.CoefficientId)},  {nameof(Eie.EieId)}");
 
-            var result = speciality.GroupBy(p => p.SpecialityId).Select(g =>
+            var data = speciality.GroupBy(p => p.SpecialityId).Select(g =>
             {
                 var groupedSpeciality = g.First();
                 var temp = g.Select(p => p.Coefficients.First()).ToList();
                 groupedSpeciality.Coefficients = temp;
                 return groupedSpeciality;
             });
-            return result;
+            
+            var count = await CountAsync();
+            return new Page<Speciality>(data, count);
         }
 
         private Query GetAllQuery()

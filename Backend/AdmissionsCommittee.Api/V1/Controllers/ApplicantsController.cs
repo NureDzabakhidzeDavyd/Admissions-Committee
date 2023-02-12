@@ -5,6 +5,7 @@ using AdmissionsCommittee.Core.Data;
 using AdmissionsCommittee.Core.Domain;
 using AdmissionsCommittee.Core.Domain.Filters;
 using AutoMapper;
+using HandbookActivity.Contracts.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdmissionsCommittee.Api.V1.Controllers
@@ -30,7 +31,7 @@ namespace AdmissionsCommittee.Api.V1.Controllers
             [FromQuery] DynamicFilters? dynamicFilters = null)
         {
             var applicant = await _unitOfWork.ApplicantRepository.PaginateAsync(paginationFilter, sortFilter, dynamicFilters);
-            var response = _mapper.Map<IEnumerable<ApplicantResponse>>(applicant);
+            var response = _mapper.Map<ApiListResponse<ApplicantResponse>>(applicant);
             return Ok(response);
         }
 
@@ -40,15 +41,15 @@ namespace AdmissionsCommittee.Api.V1.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetByid([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var applicant = await _unitOfWork.ApplicantRepository.GetByIdAsync(id);
             if (applicant is null)
             {
-                return NotFound();
+                return NotFound($"Applicant with {id} doesn't exist".ToErrorResponse());
             }
             var response = _mapper.Map<ApplicantResponse>(applicant);
-            return Ok(response);
+            return Ok(response.ToApiResponse());
         }
 
         // TODO: Test this code
@@ -105,7 +106,7 @@ namespace AdmissionsCommittee.Api.V1.Controllers
              await _unitOfWork.MarkRepository.CreateManyAsync(marks);
           
             var response = _mapper.Map<ApplicantResponse>(applicant);
-            return Ok(response);
+            return Ok(response.ToApiResponse());
         }
 
         /// <summary>
@@ -117,45 +118,52 @@ namespace AdmissionsCommittee.Api.V1.Controllers
         public async Task<IActionResult> GetApplicantStatements
             ([FromRoute] int id)
         {
-            var statements = await _unitOfWork.StatementRepository.GetApplicantStatementsAsync(id);
+            var applicant = await _unitOfWork.ApplicantRepository.GetByIdAsync(id);
+            if (applicant == null)
+            {
+                return NotFound($"applicant with {id} doesn't exist".ToErrorResponse());
+            }
+            
+            var statements = await _unitOfWork.StatementRepository.GetApplicantStatementsAsync(applicant.ApplicantId);
             if (!statements.Any())
             {
                 return NotFound();
             }
             var response = _mapper.Map<IEnumerable<StatementResponse>>(statements);
-            return Ok(response);
+            return Ok(response.ToApiResponse());
         }
 
         [HttpGet("{id}/marks")]
         public async Task<IActionResult> GetApplicantMarks
             ([FromRoute] int id)
         {
+            //TODO: Api list response
             var marks = await _unitOfWork.MarkRepository.GetApplicantMarks(id);
             if (!marks.Any())
             {
                 return NotFound();
             }
             var response = _mapper.Map<IEnumerable<MarkResponse>>(marks);
-            return Ok(response);
+            return Ok(response.ToApiResponse());
         }
 
         /// <summary>
         /// Update applicant information
         /// </summary>
-        /// <param name="applicantId"></param>
+        /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPut("{applicantId:int}")]
-        public async Task<IActionResult> Update([FromRoute] int applicantId, [FromBody] UpdateApplicantRequest request)
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateApplicantRequest request)
         {
-            var applicant = await _unitOfWork.ApplicantRepository.GetByIdAsync(applicantId);
+            var applicant = await _unitOfWork.ApplicantRepository.GetByIdAsync(id);
             if (applicant is null)
             {
-                return NotFound();
+                return NotFound($"applicant with {id} doesn't exist".ToErrorResponse());
             }
             applicant = _mapper.Map(request, applicant);
 
-            var person = await _unitOfWork.PersonRepository.GetByIdAsync(applicantId);
+            var person = await _unitOfWork.PersonRepository.GetByIdAsync(id);
             if (person is null)
             {
                 return NotFound();
@@ -168,23 +176,23 @@ namespace AdmissionsCommittee.Api.V1.Controllers
 
             var response = _mapper.Map<ApplicantResponse>(newApplicant);
 
-            return Ok(newApplicant);
+            return Ok(response.ToApiResponse());
         }
 
         /// <summary>
         /// Delete applicant by id
         /// </summary>
-        /// <param name="applicantId"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{employeeId:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteApplicantById([FromRoute] int applicantId)
+        public async Task<IActionResult> DeleteApplicantById([FromRoute] int id)
         {
-            var applicant = await _unitOfWork.ApplicantRepository.GetByIdAsync(applicantId);
+            var applicant = await _unitOfWork.ApplicantRepository.GetByIdAsync(id);
             if (applicant is null)
             {
-                return NotFound();
+                return NotFound($"applicant with {id} doesn't exist".ToErrorResponse());
             }
 
             await _unitOfWork.EmployeeRepository.DeleteByIdAsync(applicant.ApplicantId);

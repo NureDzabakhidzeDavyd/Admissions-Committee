@@ -8,7 +8,7 @@ namespace AdmissionsCommittee.Core.Domain.Filters
 {
     public class SortFilter
     {
-        public string? Field { get; set; } = null;
+        public string Field { get; set; }
 
         public bool Descending { get; set; }
     }
