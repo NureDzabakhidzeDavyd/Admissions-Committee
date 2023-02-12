@@ -12,8 +12,8 @@ namespace AdmissionsCommittee.Core.Domain
     {
         [Key]
         public int SpecialityId { get; set; }
-        public string SpecialityName { get; set; }
-        public int SpecialityCode { get; set; }
+        public string Name { get; set; }
+        public int Code { get; set; }
         public int FacultyId { get; set; }
         [Write(false)]
         public Faculty Faculty { get; set; }

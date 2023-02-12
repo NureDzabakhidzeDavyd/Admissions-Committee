@@ -11,7 +11,7 @@ namespace AdmissionsCommittee.Data.Repository
 {
     public class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
-        public PersonRepository(RepositoryConfiguration sqlConfiguration, IQueryBuilder queryBuilder) : base(sqlConfiguration, queryBuilder)
+        public PersonRepository(DapperContext dapperContext, IQueryBuilder queryBuilder) : base(dapperContext, queryBuilder)
         {
         }
     }

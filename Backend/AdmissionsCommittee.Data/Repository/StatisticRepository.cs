@@ -14,7 +14,7 @@ namespace AdmissionsCommittee.Data.Repository
 {
     public class StatisticRepository : BaseRepository<Statistic>, IStatisticRepository
     {
-        public StatisticRepository(RepositoryConfiguration sqlConfiguration, IQueryBuilder queryBuilder) : base(sqlConfiguration, queryBuilder)
+        public StatisticRepository(DapperContext dapperContext, IQueryBuilder queryBuilder) : base(dapperContext, queryBuilder)
         {
         }
 

@@ -13,7 +13,7 @@ namespace AdmissionsCommittee.Data.Repository
 {
     public class CoefficientRepository : BaseRepository<Coefficient>, ICoefficientRepository
     {
-        public CoefficientRepository(RepositoryConfiguration sqlConfiguration, IQueryBuilder queryBuilder) : base(sqlConfiguration, queryBuilder)
+        public CoefficientRepository(DapperContext dapperContext, IQueryBuilder queryBuilder) : base(dapperContext, queryBuilder)
         {
         }
 

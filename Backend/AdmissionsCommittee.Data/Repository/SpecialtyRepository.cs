@@ -16,7 +16,7 @@ namespace AdmissionsCommittee.Data.Repository
 {
     public class SpecialtyRepository : BaseRepository<Speciality>, ISpecialtyRepository
     {
-        public SpecialtyRepository(RepositoryConfiguration sqlConfiguration, IQueryBuilder queryBuilder) : base(sqlConfiguration, queryBuilder)
+        public SpecialtyRepository(DapperContext dapperContext, IQueryBuilder queryBuilder) : base(dapperContext, queryBuilder)
         {
         }
 

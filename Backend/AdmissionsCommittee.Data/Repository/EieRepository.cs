@@ -11,7 +11,7 @@ namespace AdmissionsCommittee.Data.Repository
 {
     public class EieRepository : BaseRepository<Eie>, IEieRepository
     {
-        public EieRepository(RepositoryConfiguration sqlConfiguration, IQueryBuilder queryBuilder) : base(sqlConfiguration, queryBuilder)
+        public EieRepository(DapperContext dapperContext, IQueryBuilder queryBuilder) : base(dapperContext, queryBuilder)
         {
         }
     }

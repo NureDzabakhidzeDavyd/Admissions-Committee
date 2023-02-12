@@ -15,7 +15,7 @@ namespace AdmissionsCommittee.Data.Repository
 {
     public class ApplicantRepository : BaseRepository<Applicant>, IApplicantRepository
     {
-        public ApplicantRepository(RepositoryConfiguration sqlConfiguration, IQueryBuilder queryBuilder) : base(sqlConfiguration, queryBuilder)
+        public ApplicantRepository(DapperContext dapperContext, IQueryBuilder queryBuilder) : base(dapperContext, queryBuilder)
         {
         }
 

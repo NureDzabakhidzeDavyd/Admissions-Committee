@@ -18,7 +18,7 @@ namespace AdmissionsCommittee.Business.External
     {
         private const string UserInfoUrl = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token={0}";
         private const string AuthEndpoint = "https://oauth2.googleapis.com/token";
-        private const string redirectUrl = "https://localhost:4200/";
+        private const string RedirectUrl = "https://localhost:4200/";
 
         private readonly ClientCredentials _clientCredentials;
         private readonly IHttpClientFactory _clientFactory;
@@ -45,7 +45,7 @@ namespace AdmissionsCommittee.Business.External
             { "grant_type", "authorization_code" },
             { "code", code},
             { "access_type", "offline" },
-            {"redirect_uri", $"{redirectUrl}"},
+            {"redirect_uri", $"{RedirectUrl}"},
         };
 
             var content = new FormUrlEncodedContent(queryParams);
@@ -152,7 +152,7 @@ namespace AdmissionsCommittee.Business.External
             var queryParams = new Dictionary<string, string>
             {
                 {"client_id", _clientCredentials.ClientId},
-                { "redirect_uri", redirectUrl },
+                { "redirect_uri", RedirectUrl },
                 { "response_type", "code" },
                 { "scope", "profile+email" },
                 { "access_type", "offline" }

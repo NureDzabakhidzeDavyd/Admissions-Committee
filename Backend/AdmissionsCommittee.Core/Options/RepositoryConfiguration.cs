@@ -8,6 +8,6 @@ namespace AdmissionsCommittee.Core.Options
 {
     public class RepositoryConfiguration
     {
-       public string ConnectionString { get; set; }
+       public string DatabaseConnectionString { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace AdmissionsCommittee.Contracts.V1.Response
     public class RankResponse
     {
         public int RankId { get; set; }
-        public string RankName { get; set; }
+        public string Name { get; set; }
     }
 }

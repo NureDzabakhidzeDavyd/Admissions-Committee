@@ -13,7 +13,7 @@ namespace AdmissionsCommittee.Data.Repository
 {
     public class StatementRepository : BaseRepository<Statement>, IStatementRepository
     {
-        public StatementRepository(RepositoryConfiguration sqlConfiguration, IQueryBuilder queryBuilder) : base(sqlConfiguration, queryBuilder)
+        public StatementRepository(DapperContext dapperContext, IQueryBuilder queryBuilder) : base(dapperContext, queryBuilder)
         {
         }
 
@@ -36,7 +36,7 @@ namespace AdmissionsCommittee.Data.Repository
                 statement.Applicant.Id = person.PersonId;
                 statement.Applicant.Name = $"{person.FirstName} {person.SecondName}";
                 statement.Speciality.Id = speciality.SpecialityId;
-                statement.Speciality.Name = speciality.SpecialityName;
+                statement.Speciality.Name = speciality.Name;
                 return statement;
             }, splitOn: $"{nameof(Person.PersonId)}, {nameof(Speciality.SpecialityId)}");
             return statements;
@@ -60,7 +60,7 @@ namespace AdmissionsCommittee.Data.Repository
                     statement.Applicant.Id = person.PersonId;
                     statement.Applicant.Name = $"{person.FirstName} {person.SecondName}";
                     statement.Speciality.Id = speciality.SpecialityId;
-                    statement.Speciality.Name = speciality.SpecialityName;
+                    statement.Speciality.Name = speciality.Name;
                     return statement;
                 }, splitOn: $"{nameof(Person.PersonId)}, {nameof(Speciality.SpecialityId)}");
             return statements;

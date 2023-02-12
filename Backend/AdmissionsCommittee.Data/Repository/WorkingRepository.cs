@@ -13,7 +13,7 @@ namespace AdmissionsCommittee.Data.Repository
 {
     public class WorkingRepository : BaseRepository<Working>, IWorkingRepository
     {
-        public WorkingRepository(RepositoryConfiguration sqlConfiguration, IQueryBuilder queryBuilder) : base(sqlConfiguration, queryBuilder)
+        public WorkingRepository(DapperContext dapperContext, IQueryBuilder queryBuilder) : base(dapperContext, queryBuilder)
         {
         }
 

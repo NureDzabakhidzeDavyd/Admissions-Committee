@@ -12,6 +12,6 @@ namespace AdmissionsCommittee.Core.Domain
     {
         [Key]
         public int RankId { get; set; }
-        public string RankName { get; set; }
+        public string Name { get; set; }
     }
 }

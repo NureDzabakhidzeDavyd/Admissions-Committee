@@ -13,7 +13,7 @@ namespace AdmissionsCommittee.Data.Repository
 {
     public class UserRepository : BaseRepository<UserProfile>, IUserRepository
     {
-        public UserRepository(RepositoryConfiguration sqlConfiguration, IQueryBuilder queryBuilder) : base(sqlConfiguration, queryBuilder) { }
+        public UserRepository(DapperContext dapperContext, IQueryBuilder queryBuilder) : base(dapperContext, queryBuilder) { }
 
         public async Task<UserProfile?> GetUserByEmail(string email)
         {

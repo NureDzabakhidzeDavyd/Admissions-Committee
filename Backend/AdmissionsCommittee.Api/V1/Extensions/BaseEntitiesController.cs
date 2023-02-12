@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TheatersOfTheCity.Api.Controllers.Extensions;
+namespace AdmissionsCommittee.Api.V1.Extensions;
 
 [Route("[controller]")]
 [Produces("application/json")]

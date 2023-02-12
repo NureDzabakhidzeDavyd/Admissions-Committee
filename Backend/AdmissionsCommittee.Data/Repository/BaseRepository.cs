@@ -22,10 +22,9 @@ namespace AdmissionsCommittee.Data.Repository
         protected readonly string TableName = typeof(T).Name;
         protected readonly IQueryBuilder QueryBuilder;
 
-        public BaseRepository(RepositoryConfiguration sqlConfiguration, IQueryBuilder queryBuilder)
+        public BaseRepository(DapperContext dapperContext, IQueryBuilder queryBuilder)
         {
-            var connection = sqlConfiguration.ConnectionString;
-            Connection = new SqlConnection(connection);
+            Connection = dapperContext.CreateConnection();
             QueryBuilder = queryBuilder;
         }
 

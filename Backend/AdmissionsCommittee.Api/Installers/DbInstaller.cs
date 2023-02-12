@@ -1,12 +1,14 @@
-﻿using AdmissionsCommittee.Api.Installers;
+﻿using System.Reflection;
 using AdmissionsCommittee.Core.Data;
 using AdmissionsCommittee.Core.Options;
 using AdmissionsCommittee.Core.Services;
 using AdmissionsCommittee.Data;
 using AdmissionsCommittee.Data.Helpers;
+using AdmissionsCommittee.Data.Migrations;
 using AdmissionsCommittee.Data.Repository;
+using FluentMigrator.Runner;
 
-namespace TheatersOfTheCity.Api.Installers;
+namespace AdmissionsCommittee.Api.Installers;
 
 public class DbInstaller : IInstaller
 {
@@ -14,7 +16,15 @@ public class DbInstaller : IInstaller
     {
         var databaseConfiguration = configuration.GetSection(nameof(RepositoryConfiguration)).Get<RepositoryConfiguration>();
         services.AddSingleton(databaseConfiguration);
-
+        services.AddSingleton<DapperContext>();
+        services.AddSingleton<MigrationDatabase>();
+        
+        services.AddLogging(c => c.AddFluentMigratorConsole())
+            .AddFluentMigratorCore()
+            .ConfigureRunner(c => c.AddSqlServer()
+                .WithGlobalConnectionString(databaseConfiguration.DatabaseConnectionString)
+                .ScanIn(Assembly.GetAssembly(typeof(MigrationDatabase))).For.Migrations());
+        
         services.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
         services.AddScoped<IFacultyRepository, FacultyRepository>();
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();

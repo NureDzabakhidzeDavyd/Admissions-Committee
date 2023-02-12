@@ -13,7 +13,7 @@ namespace AdmissionsCommittee.Data.Repository
 {
     public class MarkRepository : BaseRepository<Mark>, IMarkRepository
     {
-        public MarkRepository(RepositoryConfiguration sqlConfiguration, IQueryBuilder queryBuilder) : base(sqlConfiguration, queryBuilder)
+        public MarkRepository(DapperContext dapperContext, IQueryBuilder queryBuilder) : base(dapperContext, queryBuilder)
         {
         }
 

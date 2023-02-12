@@ -12,7 +12,7 @@ namespace AdmissionsCommittee.Data.Repository
 {
     public class FacultyRepository : BaseRepository<Faculty>, IFacultyRepository
     {
-        public FacultyRepository(RepositoryConfiguration sqlConfiguration, IQueryBuilder queryBuilder) : base(sqlConfiguration, queryBuilder)
+        public FacultyRepository(DapperContext dapperContext, IQueryBuilder queryBuilder) : base(dapperContext, queryBuilder)
         {
             queryBuilder.TableName = nameof(Faculty);
         }

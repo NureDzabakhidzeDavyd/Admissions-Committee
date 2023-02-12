@@ -16,7 +16,7 @@ namespace AdmissionsCommittee.Data.Helpers
         public Query GetAllQuery { get; set; }
         public string TableName { get; set; }
 
-        public virtual string PaginateFilter(PaginationFilter paginationFilter, SortFilter? sortFilter, DynamicFilters? dynamicFilters)
+        public virtual string PaginateFilter(PaginationFilter paginationFilter, SortFilter sortFilter, DynamicFilters dynamicFilters)
         {
             if (sortFilter?.Field is not null)
             {
@@ -94,7 +94,7 @@ namespace AdmissionsCommittee.Data.Helpers
             var result = sqlResult.ToString();
             if (result.Contains("like"))
             {
-                var index = result.IndexOf("like") + "like".Length + 1;
+                var index = result.IndexOf("like", StringComparison.Ordinal) + "like".Length + 1;
                 result = result.Insert(index, " N");
             }
             return result;

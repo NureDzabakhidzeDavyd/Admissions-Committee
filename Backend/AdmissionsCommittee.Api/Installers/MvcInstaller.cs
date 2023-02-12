@@ -1,6 +1,4 @@
-﻿using AdmissionsCommittee.Api.Installers;
-
-namespace TheatersOfTheCity.Api.Installers;
+﻿namespace AdmissionsCommittee.Api.Installers;
 
 public class MvcInstaller : IInstaller
 {

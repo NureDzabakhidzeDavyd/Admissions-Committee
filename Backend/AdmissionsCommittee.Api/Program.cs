@@ -1,5 +1,8 @@
+using System.Reflection;
+using AdmissionsCommittee.Api.Extensions;
 using AdmissionsCommittee.Api.Installers;
 using AdmissionsCommittee.Core.Services;
+using FluentMigrator.Runner;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +14,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.InstallServicesInAsembly();
 
 var app = builder.Build();
+app.MigrateDatabase();
 
 if (app.Environment.IsDevelopment())
 {

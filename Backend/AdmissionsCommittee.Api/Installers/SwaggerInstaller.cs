@@ -1,10 +1,8 @@
 ﻿using System.Reflection;
-using AdmissionsCommittee.Api.Installers;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 
-namespace TheatersOfTheCity.Api.Installers;
+namespace AdmissionsCommittee.Api.Installers;
 
 public class SwaggerInstaller : IInstaller
 {

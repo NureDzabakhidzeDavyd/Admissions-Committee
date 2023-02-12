@@ -13,7 +13,7 @@ namespace AdmissionsCommittee.Data.Repository
 {
     public class RankRepository : BaseRepository<Rank>, IRankRepository
     {
-        public RankRepository(RepositoryConfiguration sqlConfiguration, IQueryBuilder queryBuilder) : base(sqlConfiguration, queryBuilder)
+        public RankRepository(DapperContext dapperContext, IQueryBuilder queryBuilder) : base(dapperContext, queryBuilder)
         {
         }
     }

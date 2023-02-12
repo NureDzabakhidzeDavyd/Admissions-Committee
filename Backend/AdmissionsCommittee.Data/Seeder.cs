@@ -146,7 +146,7 @@ namespace AdmissionsCommittee.Data
             {
                 return new Eie()
                 {
-                    EieName = eieName
+                    Name = eieName
                 };
             });
             await _unitOfWork.EieRepository.CreateManyAsync(eie);
@@ -264,7 +264,7 @@ namespace AdmissionsCommittee.Data
                 "Зав. кафедри штучного інтелекту",
             };
 
-            ranks.ForEach(rankName => ranksObjects.Add(new Rank() { RankName = rankName }));
+            ranks.ForEach(rankName => ranksObjects.Add(new Rank() { Name = rankName }));
             await _unitOfWork.RankRepository.CreateManyAsync(ranksObjects);
 
             _logger.LogInformation("Faculties are created");
@@ -286,7 +286,7 @@ namespace AdmissionsCommittee.Data
                 "Факультет інформаційних радіотехнологій та технічного захисту інформації"
             };
 
-            facultiesList.ForEach(facultyName => faculties.Add(new Faculty() { FacultyName = facultyName }));
+            facultiesList.ForEach(facultyName => faculties.Add(new Faculty() { Name = facultyName }));
 
             await _unitOfWork.FacultyRepository.CreateManyAsync(faculties);
 
@@ -301,10 +301,10 @@ namespace AdmissionsCommittee.Data
             {
                 new Speciality()
                 {
-                    SpecialityCode = 121,
+                    Code = 121,
                     EducationalProgram = "Програмна інженерія",
-                    FacultyId = faculties.First(x => x.FacultyName == "Факультет комп’ютерних наук").FacultyId,
-                    SpecialityName = "Інженерія програмного забезпечення",
+                    FacultyId = faculties.First(x => x.Name == "Факультет комп’ютерних наук").FacultyId,
+                    Name = "Інженерія програмного забезпечення",
                     EducationDegree = "Бакалавр",
                     BranchName = "Інформаційні технології",
                     OfferType = "Відкрита (в т.ч. для іноземців) (із вказанням пріоритетності)",
@@ -319,10 +319,10 @@ namespace AdmissionsCommittee.Data
                 },
                 new Speciality()
                 {
-                    SpecialityCode = 122,
+                    Code = 122,
                     EducationalProgram = "Інформатика",
-                    FacultyId = faculties.First(x => x.FacultyName == "Факультет інформаційно-аналітичних технологій та менеджменту").FacultyId,
-                    SpecialityName = "Комп'ютерні науки",
+                    FacultyId = faculties.First(x => x.Name == "Факультет інформаційно-аналітичних технологій та менеджменту").FacultyId,
+                    Name = "Комп'ютерні науки",
                     EducationDegree = "Бакалавр",
                     BranchName = "Інформаційні технології",
                     OfferType = "Відкрита (в т.ч. для іноземців) (із вказанням пріоритетності)",
@@ -337,10 +337,10 @@ namespace AdmissionsCommittee.Data
                 },
                 new Speciality()
                 {
-                    SpecialityCode = 126,
+                    Code = 126,
                     EducationalProgram = "Інформаційні системи та технології",
-                    FacultyId = faculties.First(x => x.FacultyName == "Факультет інфокомунікацій").FacultyId,
-                    SpecialityName = " Інформаційні системи та технології",
+                    FacultyId = faculties.First(x => x.Name == "Факультет інфокомунікацій").FacultyId,
+                    Name = " Інформаційні системи та технології",
                     EducationDegree = "Бакалавр",
                     BranchName = "Інформаційні технології",
                     OfferType = "Відкрита (в т.ч. для іноземців) (із вказанням пріоритетності)",
@@ -355,10 +355,10 @@ namespace AdmissionsCommittee.Data
                 },
                 new Speciality()
                 {
-                    SpecialityCode = 125,
+                    Code = 125,
                     EducationalProgram = "Безпека інформаційних і комунікаційних систем",
-                    FacultyId = faculties.First(x => x.FacultyName == "Факультет комп’ютерної інженерії та управління").FacultyId,
-                    SpecialityName = " Кібербезпека",
+                    FacultyId = faculties.First(x => x.Name == "Факультет комп’ютерної інженерії та управління").FacultyId,
+                    Name = " Кібербезпека",
                     EducationDegree = "Бакалавр",
                     BranchName = "Інформаційні технології",
                     OfferType = "Відкрита (в т.ч. для іноземців) (із вказанням пріоритетності)",
@@ -373,10 +373,10 @@ namespace AdmissionsCommittee.Data
                 },
                 new Speciality()
                 {
-                    SpecialityCode = 123,
+                    Code = 123,
                     EducationalProgram = "Комп’ютерна інженерія",
-                    FacultyId = faculties.First(x => x.FacultyName == "Факультет комп’ютерної інженерії та управління").FacultyId,
-                    SpecialityName = " Комп’ютерна інженерія",
+                    FacultyId = faculties.First(x => x.Name == "Факультет комп’ютерної інженерії та управління").FacultyId,
+                    Name = " Комп’ютерна інженерія",
                     EducationDegree = "Бакалавр",
                     BranchName = "Інформаційні технології",
                     OfferType = "Відкрита (в т.ч. для іноземців) (із вказанням пріоритетності)",

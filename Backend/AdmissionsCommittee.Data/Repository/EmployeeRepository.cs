@@ -14,7 +14,7 @@ namespace AdmissionsCommittee.Data.Repository
 {
     public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
     {
-        public EmployeeRepository(RepositoryConfiguration sqlConfiguration, IQueryBuilder queryBuilder) : base(sqlConfiguration, queryBuilder)
+        public EmployeeRepository(DapperContext dapperContext, IQueryBuilder queryBuilder) : base(dapperContext, queryBuilder)
         {
         }
 
@@ -24,13 +24,13 @@ namespace AdmissionsCommittee.Data.Repository
             return await GetAllAsync(query);
         }
 
-        public async override Task<Employee> GetByIdAsync(int id)
+        public override async Task<Employee> GetByIdAsync(int id)
         {
             var query = QueryBuilder.MsSqlQueryToString(GetByIdQuery(id));
             return (await GetAllAsync(query)).FirstOrDefault();
         }
 
-        public async override Task<IEnumerable<Employee>> PaginateAsync(
+        public override async Task<IEnumerable<Employee>> PaginateAsync(
             PaginationFilter paginationFilter,
             SortFilter? sortFilter,
             DynamicFilters? dynamicFilters)
